@@ -1,7 +1,9 @@
+ ```
  PASS  src/component/profile.test.js
  PASS  src/component/todolist/todoItem.test.tsx
  PASS  src/component/userProfile.test.tsx
  PASS  src/component/delayedToggle.test.tsx (6.636s)
+ 
 --------------------|----------|----------|----------|----------|-------------------|
 File                |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 --------------------|----------|----------|----------|----------|-------------------|
@@ -18,3 +20,4 @@ Tests:       27 passed, 27 total
 Snapshots:   2 passed, 2 total
 Time:        8.787s
 Ran all test suites.
+```
