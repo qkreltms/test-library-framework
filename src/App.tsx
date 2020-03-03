@@ -5,6 +5,7 @@ import Profile from "./component/profile";
 import Counter from "./component/counter";
 import DelayedToggle from "./component/delayedToggle";
 import TodoApp from "./component/todolist/todoApp";
+import UserProfile from "./component/userProfile";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Counter />
       <DelayedToggle />
       <TodoApp />
+      <UserProfile id={1} />
     </div>
   );
 }

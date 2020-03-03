@@ -8,6 +8,7 @@ const DelayedToggle = () => {
       setToggle(toggle => !toggle);
     }, 1000);
   }, []);
+  
   return (
     <div>
       <button onClick={onToggle}>토글</button>
