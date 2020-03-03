@@ -12,6 +12,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onRemove }) => {
   return (
     <li>
       <span
+        data-testid="todoItem-span"
         style={{
           textDecoration: done ? "line-through" : "none"
         }}

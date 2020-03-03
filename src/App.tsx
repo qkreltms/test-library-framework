@@ -4,6 +4,7 @@ import SimpleButton from "./component/simpleButton";
 import Profile from "./component/profile";
 import Counter from "./component/counter";
 import DelayedToggle from "./component/delayedToggle";
+import TodoApp from "./component/todolist/todoApp";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <SimpleButton>{"Click it!!"}</SimpleButton>
       <Counter />
       <DelayedToggle />
+      <TodoApp />
     </div>
   );
 }

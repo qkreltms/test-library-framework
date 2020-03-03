@@ -21,7 +21,9 @@ const TodoForm: React.FC<TodoFormProps> = ({ onInsert }) => {
   return (
     <form onSubmit={onSubmit}>
       <input placeholder="할 일을 입력하세용~" value={value} onChange={onChange} />
-      <button type="submit">등록</button>
+      <button data-testid="sumitButton" type="submit">
+        등록
+      </button>
     </form>
   );
 };
