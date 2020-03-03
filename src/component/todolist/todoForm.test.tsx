@@ -1,18 +1,26 @@
 import React from "react";
-import TodoForm from "./todoForm";
-import { fireEvent } from "@testing-library/react";
+import TodoForm, { TodoFormProps } from "./todoForm";
+import { fireEvent, render } from "@testing-library/react";
 
 describe("<TodoForm />", () => {
   // https://jestjs.io/docs/en/setup-teardown#one-time-setup
   // 최초 한번만 작업후 이후 돌려쓰기 가능한 함수(beforeAll, afterAll);
-  beforeAll(() => {});
-  afterAll(() => {});
+  beforeAll(() => {
+    console.log("beforeAll");
+  });
+  afterAll(() => {
+    console.log("afterAll");
+  });
 
   // 각 테스트 케이스 실행전, 후 실행됨(beforeEach, afterEach)
-  beforeEach(() => {});
-  afterEach(() => {});
+  beforeEach(() => {
+    console.log("beforeEach");
+  });
+  afterEach(() => {
+    console.log("afterEach");
+  });
 
-  const setup = (props = {}) => {
+  const setup = (props: TodoFormProps = {}) => {
     const utils = render(<TodoForm {...props} />);
     const { getByText, getByPlaceholderText } = utils;
     const input = getByPlaceholderText("할 일을 입력하세용~"); // input 이 있는지 확인
@@ -32,7 +40,6 @@ describe("<TodoForm />", () => {
 
   it("changes input", () => {
     const { input } = setup();
-    const input = getByPlaceholderText("할 일을 입력하세용~"); // input DOM을 찾는다.
     fireEvent.change(input, {
       target: {
         value: "숨쉬기"
@@ -48,7 +55,7 @@ describe("<TodoForm />", () => {
 
     fireEvent.change(input, { target: { value: "숨쉬기" } });
     fireEvent.click(button);
-    
+
     expect(onInsert).toBeCalledWith("숨쉬기");
     expect(input).toHaveAttribute("value", "");
   });

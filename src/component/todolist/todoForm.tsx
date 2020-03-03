@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 
-interface TodoFormProps {
-  onInsert: (value: string) => void;
+export interface TodoFormProps {
+  onInsert?: (value: string) => void;
 }
 
 const TodoForm: React.FC<TodoFormProps> = ({ onInsert }) => {
@@ -11,7 +11,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onInsert }) => {
   }, []);
   const onSubmit = useCallback(
     e => {
-      onInsert(value);
+      if (onInsert) onInsert(value);
       setValue("");
       e.preventDefault(); // 새로고침을 방지함
     },

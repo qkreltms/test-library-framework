@@ -2,7 +2,7 @@
 // https://testing-library.com/docs/dom-testing-library/cheatsheet#queries
 
 import React from "react";
-import { render, getByTestId } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Profile from "./profile";
 
 describe("<Profile />", () => {

@@ -1,12 +1,28 @@
 import React from "react";
 
-interface TodoItemProps {}
+export interface TodoItemProps {
+  todo: { id: number; text: string; done: boolean };
+  onToggle?: (id: number) => void;
+  onRemove?: (id: number) => void;
+}
 
-const TodoItem: React.FC<TodoItemProps> = props => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onRemove }) => {
+  const { id, text, done } = todo;
+
   return (
-    <div>
-      <p>test</p>
-    </div>
+    <li>
+      <span
+        style={{
+          textDecoration: done ? "line-through" : "none"
+        }}
+        onClick={() => onToggle && onToggle(id)}
+      >
+        {" "}
+        {text}
+      </span>
+
+      <button onClick={() => onRemove && onRemove(id)}>삭제</button>
+    </li>
   );
 };
 
