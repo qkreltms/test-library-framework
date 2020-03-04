@@ -18,7 +18,6 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onRemove }) => {
         }}
         onClick={() => onToggle && onToggle(id)}
       >
-        {" "}
         {text}
       </span>
 
