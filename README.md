@@ -63,21 +63,19 @@ Lines        : Unknown% ( 0/0 )
 
 ## 개요
 
-점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 부각되고 있다. 매 순간 코드를 수정 할 때 예상치 못 한 사이드 이펙트와 버그가 무엇이 있으며 이것을 알아보기 위해 결과물을 확인한다. 
-이것의 비용은 프로젝트의 규모에 비례해 증가하고 있으며 어느 순간부터는 개발 속도가 급격히 느려진다. [참고](https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort)
+점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 주목받고 있다. 매 순간 코드를 수정할 때 예상치 못한 사이드 이펙트와 버그가 무엇이 있으며 이것을 알아보기 위해 결과물을 확인한다. 이것의 비용은 프로젝트의 규모에 비례해 증가하고 있으며 어느 순간부터는 개발 속도가 급격히 느려진다.  [참고](https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort)
 이것의 한 가지 강력한 대비책은 테스트 자동화를 통해 개발에 집중할 수 있는 환경을 만드는 것이다.
 
-이 글에서는 테스트 라이브러리에서 사용되는 용어를 알아본 후 
-트랜드의 선두에 있는 테스트 라이브러리 Mocha, Enzyme, Jest, React-testing-library(이하 RTL로 지칭), Cypress를 알아본다.
+이 글에서는 테스트 라이브러리에서 사용되는 용어를 알아본 후 추세의 선두에 있는 테스트 라이브러리 Mocha, Enzyme, Jest, React-testing-library(이하 RTL로 지칭), Cypress를 알아본다.
 
-또한 이 중 두 조합 Jest + RTL, Cypress을 예제를 통해 진행하며 비교한 후 최종적으로 어떤 테스트 라이브러리를 사용하면 좋은지 결과를 도출한다.
+또한, 이 중 두 조합 Jest + RTL, Cypress를 예제를 통해 진행하며 비교한 후 최종적으로 어떤 테스트 라이브러리를 사용하면 좋은지 결과를 도출한다
 
 ## 용어설명:
 
 1. **Out of box**: 별도의 설정, 설치 없이 바로 설정 가능
 테스트 프레임워크 Mocha는 별도의 Mocking, Spy library를 골라 설치해 사용해 사용자가 자유롭게 선택할 수 있다는 장점이 있는 반면 번거로운 환경 설정과 개발 환경 파편화는 사용자를 골치 아프게 한다.
 반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어있다(Out of box).
-또한 Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있다.
+또한, Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있다.
 
 2. **Snapshot testing**: 사전에 특정 컴포넌트, 페이지 등의 랜더링된 결과물을 찍어 놓고 이후에 새로운 랜더링 결과물과 차이가 있는지 비교한다.
 ```js
@@ -88,12 +86,12 @@ it("matches snapshot", () => {
 });
 ```
 
-위의 코드가 최초 작성시에 Counter 컴포넌트의 Snapshot을 특정 폴더에 자동적으로 저장해 놓고 테스트가 실행 될 때마다 미리 저장된 Snapshot과 다른 점이 있는지 비교한다.
+위의 코드가 최초 작성 시에 Counter 컴포넌트의 Snapshot을 특정 폴더에 자동으로 저장해 놓고 테스트가 실행될 때마다 미리 저장된 Snapshot과 다른 점이 있는지 비교한다.
 
-만약 Counter 컴포넌트가 변경되었고 Snapshot을 업데이트 하고 싶다면 특정 명령어를 입력해 업데이트 한다.
+만약 Counter 컴포넌트가 변경되었고 Snapshot을 업데이트하고 싶다면 특정 명령어를 입력해 업데이트한다.
 Jest의 경우에는 다음의 명령어로 가능하다: ```jest --updateSnapshot```
 
-추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snpashot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snpashot 테스트를 거의 사용하지 않는다고 한다.
+추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 한다.
 
 3. **Shallow rendering**: Child component에 대한 걱정 없이 그 컴포넌트만 테스트가 가능하다.
 ```js
@@ -113,13 +111,13 @@ describe("<MyComponent />", () => {
 });
 ```
 
-Component를 렌더링 하지 않으며 Child component를 호출하지 않고 Target component의 오브젝트 값만(리엑트의 경우에는 jsx) 불러오기 때문에 어떤 예상치 못한 Side effect를 걱정하지 않아도 된다. [참조](https://enzymejs.github.io/enzyme/docs/api/shallow.html)
+Component를 렌더링 하지 않으며 Child component를 호출하지 않고 Target component의 오브젝트 값만(리엑트의 경우에는 jsx) 불러오기 때문에 어떤 예상치 못한 사이드이펙트를 걱정하지 않아도 된다. [참조](https://enzymejs.github.io/enzyme/docs/api/shallow.html)
 
 추가적으로 Shallow rendering의 경우 실제 DOM을 테스트하는 RTL에서는 권장하지 않는 방법이다. [RTL에서 Shallow rendering을 권장하지 않는이유](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
 
   
 
-4. **Full Rendering**: 실제 DOM을 갖고 테스트 한다. DOM API와 버튼 클릭 등과 같은 상호 작용이 있거나 해당 컴포넌트에 적용된 HOC이 필요한 컴포넌트에 이상적이다.[참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
+4. **Full Rendering**: 실제 DOM을 갖고 테스트한다. DOM API와 버튼 클릭 등과 같은 상호 작용이 있거나 해당 컴포넌트에 적용된 HOC이 필요한 컴포넌트에 이상적이다.[참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
   
 
 5. **Mocking**: 모의 객체라는 뜻이 있으며 실제 사용하는 모듈을 사용하지 않고 그것을 흉내내는 가짜 모듈을 작성하여 테스트의 효용성을 높이는데 사용한다. [참고](https://ko.wikipedia.org/wiki/%EB%AA%A8%EC%9D%98_%EA%B0%9D%EC%B2%B4)
@@ -176,7 +174,7 @@ Mocking을 더 알고 싶다면: https://www.daleseo.com/jest-mock-modules/
 
 ⭐19.1k(20-03-05 기준)
 
-과거 수년 간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Sanpshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이있다.
+과거 수년 간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있다.
 
 설계 특성상 각각의 테스트 케이스는 동기적(Synchronouse)으로 작동하고 독립적인 환경을 구성하지 않고 있으며 이에 따라 원치않는 사이드이펙트 문제가 발생할 수도 있다.
 ```js
@@ -199,7 +197,7 @@ describe('Testing 1', function () {
 
 기본적으로 Out of box이며 Mocha와 다르게 각 테스트 케이스는 병렬적으로 작동하므로 어느정도 속도의 향상을 가져올 수 있다.
 
-또한 각 테스트 케이스를 독립적으로 돌리기 위해서 Virtual machine을 사용한다. 독립적이라는 장점을 가져올 수 있는 반면 테스트 매 사용시마다 모듈을 새로 import 다시 하므로 테스트 속도가 느려질 수 있는 것으로 보이지만 Jest에서 추가적으로 제공하는 기능(setupTests.js에서 모듈을 불러오면 Global로 사용함)을 통해 해결할 수 있는 것으로 보인다.
+또한 각 테스트 케이스를 독립적으로 돌리기 위해서 Virtual machine을 사용한다. 독립적이라는 장점을 가져올 수 있는 반면 테스트 매 사용시마다 모듈을 새로 Import 다시 하므로 테스트 속도가 느려질 수 있는 것으로 보이지만 Jest에서 추가적으로 제공하는 기능(setupTests.js에서 모듈을 불러오면 Global로 사용함)을 통해 해결할 수 있는 것으로 보인다.
 
 ```js
 describe('Testing 1', () => {
