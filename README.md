@@ -384,7 +384,7 @@ Cypress를 설치하면 자동적으로 폴더가 생성되는데 이 폴더의 
 
 **Cypress**
 
-실제로 TodoApp 테스트 케이스 작성시에도 발견할 수 있는 (버그)[https://github.com/cypress-io/cypress/issues/6636]가 존재 하고 완벽하지 않은 Typescript 지원, Jest + RTL에 비해 많지 않은 예제, 환경 설정의 까다로움이 존재 하지만
+실제로 TodoApp 테스트 케이스 작성시에도 발견할 수 있는 [버그](https://github.com/cypress-io/cypress/issues/6636)가 존재 하고 완벽하지 않은 Typescript 지원, Jest + RTL에 비해 많지 않은 예제, 환경 설정의 까다로움이 존재 하지만
 
 우선순위의 첫 번째인
 
