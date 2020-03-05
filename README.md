@@ -42,9 +42,15 @@ Done in 10.79s.
 Cypress test coverage
 
 ```
+Configure is not all set.
+Move to: coverage/lcov-report/stc/component
 
-See coverage/lcov-report/stc/component
-
+=============================== Coverage summary ===============================
+Statements   : Unknown% ( 0/0 )
+Branches     : Unknown% ( 0/0 )
+Functions    : Unknown% ( 0/0 )
+Lines        : Unknown% ( 0/0 )
+================================================================================
 ```
 
   
@@ -295,9 +301,9 @@ describe("<Button />", function() {
 
 ## 실사용 예제
 
-[trand1](./trand%20horizontal.png);
+![trand1](./trand%20horizontal.png)
 
-[trand2](./trand%20quadrant.png);
+![trand2](./trand%20quadrant.png)
 
 **우선순위**
 
