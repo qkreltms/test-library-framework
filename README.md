@@ -139,7 +139,8 @@ describe('<Counter />', () => {
     const wrapper = shallow(<Counter />);
     expect(wrapper).toMatchSnapshot();
   });
-  it('has initial props', () => {
+  // test는 it과 동일한 역할을 수행한다.
+  test('has initial props', () => {
     const wrapper = shallow(<Counter />);
     expect(wrapper.props().number).toBe(0);
   });
@@ -217,17 +218,20 @@ describe('<Counter />', () => {
 1. 컴포넌트 안의 함수를 호출해 테스트가 가능하다.
 2. 모든 DOM을 렌더링 하지 않아서 빠르다.
 3. 하위 component는 랜더링 되지 않기 때문에 어떠한 의존성 없이 테스트가 가능하다. 예: ```하위 컴포넌트에서 componentWillRerecieve를 통한 상위 컴포넌트 state 변경``` 
+   
 **단점**
-1. 실제 렌더링 결과에는 영향을 끼치지 않는 리펙토링 과정에서 함수의 이름이 변경될 때마다 테스트 코드를 수정해야하며 props.isShow가 true가 될 때 값이 true인 것은 알겠으나 실제로 DOM이 보여지는 상태인지 확인 할 수 없다.
+1. 실제 렌더링 결과에는 영향을 끼치지 않는 리펙토링 과정에서 함수의 이름이 변경될 때마다 테스트 코드를 수정해야하며 예를 들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보여지고 isShow 값이 제대로 나왔는지 판별한다고 가정했을 때 값이 true인 것은 확인할 수 있으나 실제로 DOM이 보여지는 상태인지 확인 할 수 없다.
 2. Milliseconds 단위로 빨라지기 때문에 무시할 만한 수준이다.
 3. 하위 컴포넌트를 포함한 렌더링이 이뤄져야 실제로 유저가 볼 수 있는 모든 작동을 확인하고 검증이 가능하다. 
 
 추가적으로 Shallow rendering의 경우 [RTL에서는 권장하지 않는 방법이다.](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
 
 
-1. **Mocking**: 모의 객체라는 뜻이 있으며 실제 사용하는 모듈을 사용하지 않고 그것을 흉내내는 가짜 모듈을 작성하여 테스트의 효용성을 높이는데 사용한다. [참고](https://ko.wikipedia.org/wiki/%EB%AA%A8%EC%9D%98_%EA%B0%9D%EC%B2%B4)
+5. **Mock**: 모의 객체라는 뜻이 있으며 실제 사용하는 모듈을 사용하지 않고 그것을 흉내내는 가짜 모듈을 작성하여 테스트의 효용성을 높이는데 사용한다. [참고](https://ko.wikipedia.org/wiki/%EB%AA%A8%EC%9D%98_%EA%B0%9D%EC%B2%B4)
+   
+6. **Spy**: 함수 추적.
 
-함수에 사용한다면 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있다.
+위의 2가지를 사용해 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있다.
 또한, **어떤 일들이 발생했는지를 기억할 수 있기 때문에 내부적으로 어떻게 사용되는지 검증할 수 있다.** [참고](https://www.daleseo.com/jest-fn-spy-on/)
 
 ```js
@@ -239,6 +243,28 @@ describe('<Counter />', () => {
 // foo is a mock function
 foo.mockImplementation(() => 42);
 foo();
+```
+```js
+function forEach(items, callback) {
+  for (let index = 0; index < items.length; index++) {
+    callback(items[index]);
+  }
+}
+
+const mockCallback = jest.fn(x => 42 + x);
+forEach([0, 1], mockCallback);
+
+// The mock function is called twice
+expect(mockCallback.mock.calls.length).toBe(2);
+
+// The first argument of the first call to the function was 0
+expect(mockCallback.mock.calls[0][0]).toBe(0);
+
+// The first argument of the second call to the function was 1
+expect(mockCallback.mock.calls[1][0]).toBe(1);
+
+// The return value of the first call to the function was 42
+expect(mockCallback.mock.results[0].value).toBe(42);
 ```
 
 ```js
@@ -260,17 +286,118 @@ axios.get('/users')
 });
 ```
 
-6. **Spying on**: 엿듣다라는 뜻으로 오브젝트안의 함수 Mocking이 가능하게 함.
-
-주로 모듈이나 library에서 반환하는 함수, 클래스 등을 추적하고 싶을 때 사용함.
-
 ```js
 // https://jestjs.io/docs/en/es6-class-mocks#spying-on-the-constructor
 import SoundPlayer from './sound-player';
 jest.mock('./sound-player');
 // 이제 ./sound-player 를 추적할 수 있다.
 ```
-Mocking을 더 알고 싶다면: https://www.daleseo.com/jest-mock-modules/
+
+이메일과 문자를 보낼 때 사용하는 messageService라는 자바스크립트 모듈이 있다고 가정해보겠습니다.
+이렇게 외부 매체를 통해 메세지를 보내는 작업은 어플리케이션에서 수시로 일어날 수 있지만, 단위 테스트 측며에서는 모킹 기법 없이는 처리가 매우 끼다로운 대표적인 케이스 중 하나입니다.
+왜냐하면, 일반적으로 이메일과 문자는 외부 서비스를 이용하는 경우가 많아서 테스트 실행 시 마다 불필요한 과금 발생할 수 있고, 해당 외부 서비스에 장애가 발생하면 관련 테스트가 모두 깨지는 불상사가 발생할 수 있기 때문입니다. [참고](https://www.daleseo.com/jest-mock-modules/)
+```js
+// messageService.js
+export function sendEmail(email, message) {
+  /* 이메일 보내는 코드 */
+}
+
+export function sendSMS(phone, message) {
+  /* 문자를 보내는 코드 */
+}
+//////////////////////
+// userService.js
+import { sendEmail, sendSMS } from './messageService';
+
+export function register(user) {
+  /* DB에 회원 추가 */
+  const message = '회원 가입을 환영합니다!';
+  sendEmail(user.email, message);
+  sendSMS(user.phone, message);
+}
+
+export function deregister(user) {
+  /* DB에 회원 삭제 */
+  const message = '탈퇴 처리 되었습니다.';
+  sendEmail(user.email, message);
+  sendSMS(user.phone, message);
+}
+//////////////////////
+
+
+import { register, deregister } from './userService';
+import * as messageService from './messageService';
+
+// 이제 messageService 오브젝트안의 함수를 추적한다.
+messageService.sendEmail = jest.fn();
+messageService.sendSMS = jest.fn();
+
+const sendEmail = messageService.sendEmail;
+const sendSMS = messageService.sendSMS;
+
+describe("", () => {
+   beforeEach(() => {
+     sendEmail.mockClear();
+     sendSMS.mockClear();
+   });
+
+   const user = {
+     email: 'test@email.com',
+     phone: '012-345-6789'
+   };
+
+   it('register sends messeges', () => {
+     // register 함수를 실행한다. 
+     // register 안에서 sendEmail, sendSMS 함수를 호출하고 이 두 함수는 위에서 추적이 가능하게 했으므로 추적해 값을 테스트한다.
+     register(user);
+
+     expect(sendEmail).toBeCalledTimes(1);
+     expect(sendEmail).toBeCalledWith(user.email, '회원 가입을 환영합니다!');
+
+     expect(sendSMS).toBeCalledTimes(1);
+     expect(sendSMS).toBeCalledWith(user.phone, '회원 가입을 환영합니다!');
+   });
+
+   it('deregister sends messaes', () => {
+     deregister(user);
+
+     expect(sendEmail).toBeCalledTimes(1);
+     expect(sendEmail).toBeCalledWith(user.email, '탈퇴 처리 되었습니다.');
+
+     expect(sendSMS).toBeCalledTimes(1);
+     expect(sendSMS).toBeCalledWith(user.phone, '탈퇴 처리 되었습니다.');
+   });
+});
+```
+
+```js
+describe("Test! mocks", () => {
+
+   const myObj = {
+     doSomething() {
+       console.log('does something');
+     }
+   };
+
+   it('stub .toBeCalled()', () => {
+     const stub = jest.fn();
+     stub();
+     expect(stub).toBeCalled();
+   });
+   it('spyOn .toBeCalled()', () => {
+     const somethingSpy = jest.spyOn(myObj, 'doSomething');
+     myObj.doSomething();
+     expect(somethingSpy).toBeCalled();
+   });
+});
+```
+
+**장점**
+함수에 사용한다면 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있다.
+또한, **어떤 일들이 발생했는지를 기억할 수 있기 때문에 내부적으로 어떻게 사용되는지 검증할 수 있다.** [참고](https://www.daleseo.com/jest-fn-spy-on/)
+
+**단점**
+(?)
 
 
 ### 인기있는 테스트 프레임워크/라이브러리
@@ -279,7 +406,7 @@ Mocking을 더 알고 싶다면: https://www.daleseo.com/jest-mock-modules/
 
 ⭐19.1k(20-03-05 기준)
 
-과거 수년 간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있다.
+과거 수년간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있다.
 
 설계 특성상 각각의 테스트 케이스는 동기적(Synchronouse)으로 작동하고 독립적인 환경을 구성하지 않고 있으며 이에 따라 원치않는 사이드이펙트 문제가 발생할 수도 있다.
 ```js
@@ -294,7 +421,12 @@ describe('Testing 1', function () {
 });
 ```
 
-  
+**장점**
+1. Assertion, Snapshot 등 원하는 라이브러리 선택해 사용가능
+2. 수년간 가장 인기 많은 테스트 프레임워크 
+
+**단점**
+1. 각 테스트 케이스 마다 독립적인 환경이 아니어서 원치않는 사이드이펙트 문제가 발생할 수 있음
 
 #### 2. Jest
 
@@ -312,6 +444,15 @@ describe('Testing 1', () => {
 });
 ```
 
+**장점**
+1. 각 테스트 케이스는 독립적 (VM 사용)
+2. 각 테스트 케이스는 병렬적으로 작동해 어느정도 속도 향상이 있을 수 있음
+3. 현재 가장 인기 많은 테스트 프레임워크
+4. 기본적으로 Out of Box이므로 따로 환경설정이 필요하지 않음
+5. Facebook에서 유지보수
+
+**단점**
+1. 각 테스트 케이스가 독립적이므로 매번 모듈을 새로 가져와서 속도가 느릴수 있음
   
 
 #### 3. Enzyme
@@ -333,6 +474,13 @@ describe('<Foo />', () => {
 });
 ```
 
+**장점** 
+1. 컴포넌트를 테스트하는데 가장 많은 기능을 지원하는 라이브러리
+2. 그 중 인기가 가장 많음
+3. AirBnB에서 지원함
+   
+**단점**
+1. 기능이 많은 만큼 RTL에 비해 러닝커브가 있음
   
 
 #### 4. RTL
@@ -378,6 +526,14 @@ describe('<Profile />', () => {
 });
 ```
 
+**장점**
+1. 유저의 관점에서 작성된 라이브러리 
+2. Enzyme에 비해 낮은 러닝커브
+3. 정말 필요한 것만 포함하여 가벼운 라이브러리
+
+**단점**
+1. 가볍다는 것은 기능이 많지 않다는 것을 의미함
+
 #### 5. Cypress
 
 ⭐ 18.8k
@@ -385,10 +541,8 @@ describe('<Profile />', () => {
 기본적으로 RTL과 비슷하며 이것 또한 사용자의 입장에서 테스트 진행.
 가장 좋은 점은 각각의 테스트 케이스가 어떻게 진행됐는지 눈으로 확인이 가능하다.
 한 파일 안의 테스트 케이스들은 동기적으로 실행되지만 각 페이지 별로 실행함으로써 병렬적으로 실행 가능하다.
-
-기본적으로 DOM을 get할 때 4초간 기다림 및 자동적으로 Retry 하며 Mocha를 사용한다.
-Typescript를 완벽하게 지원하지 않는다.
-쉽게 익힐 수 있고 사용이 가능하다는 장점이 있는 반면 Typescript, React, Test coverage를 지원하기 위해서는 별도의 설정이 필요하다는 번거로움이 있다.
+DOM을 get할 때 4초간 기다림 및 자동적으로 Retry 하며 Mocha를 사용한다.
+Mocha를 사용한다.
 
 ```js
 describe("<Button />", function() {
@@ -402,19 +556,38 @@ describe("<Button />", function() {
 })
 ```
 
-## 실사용 예제
+**장점**
+1. 읽기 쉬운 테스트 코드 - 각 테스트 케이스는 동기적으로 실행되며, chaning 패턴을 사용함
+2. 어렵지 않은 난이도 - 기본적으로 DOM을 가져올 때 자동적으로 4초간 기다림, 마지막 줄이 실패시 자동적으로 4초간 Retry함 
+3. 문서가 잘 작성되어있음
+4. 유저의 관점에서 작성된 라이브러리 
+
+**단점**
+1. 실제로 TodoApp 테스트 케이스 작성시에도 발견할 수 있는 [버그](https://github.com/cypress-io/cypress/issues/6636)가 존재
+2. 완벽하지 않은 Typescript 지원
+3. Jest + RTL에 비해 많지 않은 예제
+4. Typescript, React, Test coverage를 지원시 환경 설정의 까다로움이 존재
+
+## 트랜드
 
 ![trand1](./trand%20horizontal.png)
 
 ![trand2](./trand%20quadrant.png)
 
-**우선순위**
+
+## 최종 선택
+
+1. **Cypress**
+2. **Jest + RTL**
+  
+
+**선택의 우선순위**
  
 1. 테스트가 메인은 아님으로 쉬우면서 빠르게 작성가능 하면 좋겠다.
 
 2. Stackoverflow에 질문하면 답변이 잘 되는, 대부분이 사용하는 테스트 라이브러리이면 좋겠다.
 
-3. Props, State의 값을 확인하기 보다 실제 DOM이 어떻게 작동되는지 테스트 하고 싶다.
+3. 실제 DOM이 어떻게 작동되는지 테스트 하고 싶다.
 
 ### 조합 1. Cypress
 
@@ -469,6 +642,7 @@ Cypress를 설치하면 자동적으로 폴더가 생성되는데 이 폴더의 
 - index.js
 
 ```
+## 실사용 예제
 **예제를 보려면 cypress 폴더로 이동**
 **실행**: ```yarn cypress or yarn cypress:runCli```
 
@@ -480,7 +654,7 @@ Cypress를 설치하면 자동적으로 폴더가 생성되는데 이 폴더의 
 
 2. Enzyme 보다는 RTL이 일반적으로 더 쉽다고 여겨지므로.
 
-  
+## 실사용 예제
 **예제를 보려면 src/component 로 이동**
 **실행**: yarn test
 
@@ -489,11 +663,14 @@ Cypress를 설치하면 자동적으로 폴더가 생성되는데 이 폴더의 
 
 **Cypress**
 
-실제로 TodoApp 테스트 케이스 작성시에도 발견할 수 있는 [버그](https://github.com/cypress-io/cypress/issues/6636)가 존재 하고 완벽하지 않은 Typescript 지원, Jest + RTL에 비해 많지 않은 예제, 환경 설정의 까다로움이 존재 하지만
-
-우선순위의 첫 번째인
+여러 단점이 있음에도 불구하고 우선순위의 첫 번째인
 
 1. 테스트가 메인은 아님으로 쉬우면서 빠르게 작성가능 하면 좋겠다.
 
-에 가장 알맞다고 생각됨.
-그 외에 테스트 케이스를 작성하면서 재미도 있었음.
+에 가장 알맞다고 생각되며 우선순의 두 번째인
+
+2. Stackoverflow에 질문하면 답변이 잘 되는, 대부분이 사용하는 테스트 라이브러리이면 좋겠다.
+
+를 알아봤을 때 실제 필자가 Github를 통해 해당 라이브러리에 질문을 했을 때 하루안에 답변을 빠르게 얻을 수 있었으며 Stackoverflow에 Cypress, Mocha, Jest, React-testing-library를 검색해서 결과 숫자를 봤을 때 Cypress, Mocha가 가장 많았다. 
+
+그 외에 테스트 케이스를 작성하면서 약간의 즐거움이 있었음.
