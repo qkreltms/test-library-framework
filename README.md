@@ -360,17 +360,10 @@ export function register(user) {
   sendEmail(user.email, message);
   sendSMS(user.phone, message);
 }
-
-export function deregister(user) {
-  /* DB에 회원 삭제 */
-  const message = '탈퇴 처리 되었습니다.';
-  sendEmail(user.email, message);
-  sendSMS(user.phone, message);
-}
 //////////////////////
 
 
-import { register, deregister } from './userService';
+import { register } from './userService';
 import * as messageService from './messageService';
 
 // 이제 messageService 오브젝트안의 함수를 추적한다.
@@ -401,16 +394,6 @@ describe("", () => {
 
      expect(sendSMS).toBeCalledTimes(1);
      expect(sendSMS).toBeCalledWith(user.phone, '회원 가입을 환영합니다!');
-   });
-
-   it('deregister sends messaes', () => {
-     deregister(user);
-
-     expect(sendEmail).toBeCalledTimes(1);
-     expect(sendEmail).toBeCalledWith(user.email, '탈퇴 처리 되었습니다.');
-
-     expect(sendSMS).toBeCalledTimes(1);
-     expect(sendSMS).toBeCalledWith(user.phone, '탈퇴 처리 되었습니다.');
    });
 });
 ```
