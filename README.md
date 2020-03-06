@@ -59,6 +59,7 @@ Lines        : Unknown% ( 0/0 )
 
 저자: [qkreltms](https://github.com/qkreltms)
 
+이 문서의 주소: https://github.com/qkreltms/testingLibrary-playground
   
 
 ## 개요
@@ -66,9 +67,16 @@ Lines        : Unknown% ( 0/0 )
 점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 주목받고 있다. 매 순간 코드를 수정할 때 예상치 못한 사이드 이펙트와 버그가 무엇이 있으며 이것을 알아보기 위해 결과물을 확인한다. 이것의 비용은 프로젝트의 규모에 비례해 증가하고 있으며 어느 순간부터는 개발 속도가 급격히 느려진다.  [참고](https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort)
 이것의 한 가지 강력한 대비책은 테스트 자동화를 통해 개발에 집중할 수 있는 환경을 만드는 것이다.
 
-이 글에서는 테스트 툴에서 사용되는 용어를 알아본 후 추세의 선두에 있는 테스트 라이브러리 Mocha, Enzyme, Jest, React-testing-library(이하 RTL로 지칭), Cypress를 알아본다.
+이 글에서는 테스트 툴에서 사용되는 용어를 알아본 후 테스트 툴의 추세를 알아본 후 추세의 선두에 있는 테스트 라이브러리 Mocha, Enzyme, Jest, React-testing-library(이하 RTL로 지칭), Cypress를 알아본다.
 
 또한, 이 중 두 조합 Jest + RTL, Cypress를 예제를 통해 진행하며 비교한 후 최종적으로 어떤 테스트 툴을 사용하면 좋은지 결과를 도출한다
+
+## 목차
+1. 용어설명
+2. 인기있는 테스트 프레임워크/라이브러리
+3. 트렌드
+4. 적합한 테스트 툴 조합
+5. 결론
 
 ## 용어설명:
 
@@ -611,14 +619,14 @@ describe('Post Resource', function() {
 3. Jest + RTL에 비해 많지 않은 예제
 4. Typescript, React, Test coverage를 지원시 환경 설정의 까다로움이 존재
 
-## 트랜드
+## 트렌드
 
 ![trand1](./trand%20horizontal.png)
 
 ![trand2](./trand%20quadrant.png)
 
 
-## 최종 선택
+## 적합한 테스트 툴 조합
 
 1. **Cypress**
 2. **Jest + RTL**
