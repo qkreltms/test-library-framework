@@ -606,44 +606,17 @@ describe("<Button />", function() {
 Cypress를 설치하면 자동적으로 폴더가 생성되는데 이 폴더의 구조를 설명한다.
 
 ```
-
 /cypress
+  /fixtures - Asset을 저장하는 공간. 여기에 저장할 경우 cy.fixture(filePath)와 같은 형식으로 불러올수 있음
+    - example.json
 
-/fixtures - Asset을 저장하는 공간. 여기에 저장할 경우 cy.fixture(filePath)와 같은 형식으로 불러올수 있음
-
-- example.json
-
-  
-
-/integration - 실제 테스트 코드가 위치하는 공간
-
-/examples
-
-- actions.spec.js
-
-- aliasing.spec.jsx
-
-- assertions.spec.tsx
-
-//Some more files...
-
-  
-
-/plugins
-
-- index.js
-
-  
-
-/support - 각 테스트 코드가 실행되기전 거치는 공간. Global로 무언가를 실행 시키고 싶을때 사용.
-
-- commands.js
-
-- index.js
-
+  /integration - 실제 테스트 코드가 위치하는 공간
+  /plugins
+  /support - 각 테스트 코드가 실행되기전 거치는 공간. Global로 무언가를 실행 시키고 싶을때 사용.
 ```
-## 실사용 예제
-**예제를 보려면 cypress 폴더로 이동**
+
+#### 실사용 예제
+예제를 보려면 cypress 폴더로 이동
 **실행**: ```yarn cypress or yarn cypress:runCli```
 
 ### 조합 2. Jest + RTL
@@ -654,22 +627,22 @@ Cypress를 설치하면 자동적으로 폴더가 생성되는데 이 폴더의 
 
 2. Enzyme 보다는 RTL이 일반적으로 더 쉽다고 여겨지므로.
 
-## 실사용 예제
-**예제를 보려면 src/component 로 이동**
+#### 실사용 예제
+예제를 보려면 src/component 로 이동
 **실행**: yarn test
 
 
 ## 결론
 
-**Cypress**
+### **Cypress**
 
 여러 단점이 있음에도 불구하고 우선순위의 첫 번째인
 
-1. 테스트가 메인은 아님으로 쉬우면서 빠르게 작성가능 하면 좋겠다.
+1. **테스트가 메인은 아님으로 쉬우면서 빠르게 작성가능 하면 좋겠다.**
 
 에 가장 알맞다고 생각되며 우선순의 두 번째인
 
-2. Stackoverflow에 질문하면 답변이 잘 되는, 대부분이 사용하는 테스트 라이브러리이면 좋겠다.
+2. **Stackoverflow에 질문하면 답변이 잘 되는, 대부분이 사용하는 테스트 라이브러리이면 좋겠다.**
 
 를 알아봤을 때 실제 필자가 Github를 통해 해당 라이브러리에 질문을 했을 때 하루안에 답변을 빠르게 얻을 수 있었으며 Stackoverflow에 Cypress, Mocha, Jest, React-testing-library를 검색해서 결과 숫자를 봤을 때 Cypress, Mocha가 가장 많았다. 
 
