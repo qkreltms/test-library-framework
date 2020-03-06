@@ -93,34 +93,130 @@ Jest의 경우에는 다음의 명령어로 가능하다: ```jest --updateSnapsh
 
 추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 한다.
 
-3. **Shallow rendering**: Child component에 대한 걱정 없이 그 컴포넌트만 테스트가 가능하다.
-```js
-// https://ko.reactjs.org/docs/shallow-renderer.html
-describe("<MyComponent />", () => {
-  it("check type and props", () => {
-    const renderer = new ShallowRenderer();
-    renderer.render(<MyComponent />);
-    const result = renderer.getRenderOutput();
+1. **Full Rendering**: 실제 DOM을 갖고 랜더링한다. 이로인해서 유저가 실제로 확인하는 DOM을 갖고 테스트가 가능하다. [참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
+   
+2. **Shallow Rendering**: 컴포넌트 내부에 또다른 리액트 컴포넌트가 있다면 이를 렌더링하지 않는다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
 
-    expect(result.type).toBe('div');
-    expect(result.props.children).toEqual([
-      <span className="heading">Title</span>,
-      <Subcomponent foo="bar" />
-    ]);
+만약 아래의 컴포넌트가 있을 때
+```js
+// https://velog.io/@velopert/react-testing-with-enzyme
+import React, { Component } from 'react';
+
+class Counter extends Component {
+  state = {
+    number: 0 || this.props.number
+  };
+  handleIncrease = () => {
+    this.setState({
+      number: this.state.number + 1
+    });
+  };
+  handleDecrease = () => {
+    this.setState({
+      number: this.state.number - 1
+    });
+  };
+  render() {
+    return (
+      <div>
+        <h2>{this.state.number}</h2>
+        <button onClick={this.handleIncrease}>+1</button>
+        <button onClick={this.handleDecrease}>-1</button>
+      </div>
+    );
+  }
+}
+```
+
+아래와 같이 테스트를 진행한다면
+```js
+import React from 'react';
+import { shallow } from 'enzyme';
+import Counter from './Counter';
+
+describe('<Counter />', () => {
+  it('matches snapshot', () => {
+    const wrapper = shallow(<Counter />);
+    expect(wrapper).toMatchSnapshot();
+  });
+  it('has initial props', () => {
+    const wrapper = shallow(<Counter />);
+    expect(wrapper.props().number).toBe(0);
+  });
+  it('has initial number', () => {
+    const wrapper = shallow(<Counter />);
+    expect(wrapper.state().number).toBe(0);
+  });
+  it('increases', () => {
+    const wrapper = shallow(<Counter />);
+    wrapper.instance().handleIncrease();
+    expect(wrapper.state().number).toBe(1);
+  });
+  it('decreases', () => {
+    const wrapper = shallow(<Counter />);
+    wrapper.instance().handleDecrease();
+    expect(wrapper.state().number).toBe(-1);
   });
 });
 ```
 
-Component를 렌더링 하지 않으며 Child component를 호출하지 않고 Target component의 오브젝트 값만(리엑트의 경우에는 jsx) 불러오기 때문에 어떤 예상치 못한 사이드이펙트를 걱정하지 않아도 된다. [참조](https://enzymejs.github.io/enzyme/docs/api/shallow.html)
+실제 랜더링되는 ```<Counter/>```는 다음과 같다.
+```js
+   // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-추가적으로 Shallow rendering의 경우 실제 DOM을 테스트하는 RTL에서는 권장하지 않는 방법이다. [RTL에서 Shallow rendering을 권장하지 않는이유](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
+   exports[`<Counter /> matches snapshot 1`] = `
+   <div>
+     <h2>
+       0
+     </h2>
+     <button
+       onClick={[Function]}
+     >
+       +1
+     </button>
+     <button
+       onClick={[Function]}
+     >
+       -1
+     </button>
+     <Profile
+       name="김민준"
+       username="velopert"
+     />
+ // Full Rendering의 경우에는 하위까지 보여짐  
+ //   <Profile
+ //   name="김민준"
+ //   username="velopert"
+ // >
+ //   <div>
+ //     <b>
+ //       velopert
+ //     </b>
+      
+ //     <span>
+ //       (
+ //       김민준
+ //       )
+ //     </span>
+ //   </div>
+ // </Profile>
+   </div>
+   `;
+```
 
-  
+**장점**
+1. 컴포넌트 안의 함수를 호출해 테스트가 가능하다.
+2. 모든 DOM을 렌더링 하지 않아서 빠르다.
+3. 하위 component는 랜더링 되지 않기 때문에 어떠한 의존성 없이 테스트가 가능하다. 예: ```하위 컴포넌트에서 componentWillRerecieve를 통한 상위 컴포넌트 state 변경``` 
+**단점**
+1. 실제 렌더링 결과에는 영향을 끼치지 않는 리펙토링 과정에서 함수의 이름이 변경될 때마다 테스트 코드를 수정해야하며 props.isShow가 true가 될 때 값이 true인 것은 알겠으나 실제로 DOM이 보여지는 상태인지 확인 할 수 없다.
+2. Milliseconds 단위로 빨라지기 때문에 무시할 만한 수준이다.
+3. 하위 컴포넌트를 포함한 렌더링이 이뤄져야 실제로 유저가 볼 수 있는 모든 작동을 확인하고 검증이 가능하다. 
 
-4. **Full Rendering**: 실제 DOM을 갖고 테스트한다. DOM API와 버튼 클릭 등과 같은 상호 작용이 있거나 해당 컴포넌트에 적용된 HOC이 필요한 컴포넌트에 이상적이다.[참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
-  
+추가적으로 Shallow rendering의 경우 [RTL에서는 권장하지 않는 방법이다.](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
 
-5. **Mocking**: 모의 객체라는 뜻이 있으며 실제 사용하는 모듈을 사용하지 않고 그것을 흉내내는 가짜 모듈을 작성하여 테스트의 효용성을 높이는데 사용한다. [참고](https://ko.wikipedia.org/wiki/%EB%AA%A8%EC%9D%98_%EA%B0%9D%EC%B2%B4)
+
+1. **Mocking**: 모의 객체라는 뜻이 있으며 실제 사용하는 모듈을 사용하지 않고 그것을 흉내내는 가짜 모듈을 작성하여 테스트의 효용성을 높이는데 사용한다. [참고](https://ko.wikipedia.org/wiki/%EB%AA%A8%EC%9D%98_%EA%B0%9D%EC%B2%B4)
 
 함수에 사용한다면 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있다.
 또한, **어떤 일들이 발생했는지를 기억할 수 있기 때문에 내부적으로 어떻게 사용되는지 검증할 수 있다.** [참고](https://www.daleseo.com/jest-fn-spy-on/)
@@ -304,7 +400,7 @@ describe("<Button />", function() {
 ![trand2](./trand%20quadrant.png)
 
 **우선순위**
-
+ 
 1. 테스트가 메인은 아님으로 쉬우면서 빠르게 작성가능 하면 좋겠다.
 
 2. Stackoverflow에 질문하면 답변이 잘 되는, 대부분이 사용하는 테스트 라이브러리이면 좋겠다.
