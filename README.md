@@ -86,7 +86,7 @@ Lines        : Unknown% ( 0/0 )
 반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어있다(Out of box).
 또한, Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있다.
 
-1. **Snapshot testing**: 사전에 특정 컴포넌트, 페이지 등의 렌더링된 결과물을 찍어 놓고 이후에 새로운 렌더링 결과물과 차이가 있는지 비교한다.
+2. **Snapshot testing**: 사전에 특정 컴포넌트, 페이지 등의 렌더링된 결과물을 찍어 놓고 이후에 새로운 렌더링 결과물과 차이가 있는지 비교한다.
 ```js
 // src/component/counter.test.js
 it("matches snapshot", () => {
@@ -102,9 +102,9 @@ Jest의 경우에는 다음의 명령어로 가능하다: ```jest --updateSnapsh
 
 추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 한다.
 
-2. **Full Rendering**: 실제 DOM을 갖고 렌더링한다. 이로인해서 유저가 실제로 확인하는 DOM을 갖고 테스트가 가능하다. [참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
+3. **Full Rendering**: 실제 DOM을 갖고 렌더링한다. 이로인해서 유저가 실제로 확인하는 DOM을 갖고 테스트가 가능하다. [참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
    
-3. **Shallow Rendering**: 컴포넌트 내부에 또다른 리액트 컴포넌트가 있다면 이를 렌더링하지 않는다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
+4. **Shallow Rendering**: 컴포넌트 내부에 또다른 리액트 컴포넌트가 있다면 이를 렌더링하지 않는다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
 
 만약 아래의 컴포넌트가 있을 때
 ```js
@@ -251,7 +251,7 @@ describe('<Counter />', () => {
 추가적으로 Shallow rendering의 경우 [RTL에서는 권장하지 않는 방법이다.](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
 
 
-4. **Mock**: 실제 구현된 함수 아래에서 가짜 함수를 만들어 함수의 매개 변수나 호출을 추적할 수 있으며, 또한 원하는 값을 반환하도록 할 수 있다.  
+5. **Mock**: 실제 구현된 함수 아래에서 가짜 함수를 만들어 함수의 매개 변수나 호출을 추적할 수 있으며, 또한 원하는 값을 반환하도록 할 수 있다.  
 
 ```js
 // https://jestjs.io/docs/en/mock-functions.html
