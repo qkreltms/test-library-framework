@@ -157,6 +157,15 @@ describe('<Counter />', () => {
     wrapper.instance().handleDecrease();
     expect(wrapper.state().number).toBe(-1);
   });
+  it('calls handleIncrease', () => {
+     // 클릭이벤트를 시뮬레이트하고, state 를 확인
+    const wrapper = shallow(<Counter />);
+    const plusButton = wrapper.findWhere(
+      node => node.type() === 'button' && node.text() === '+1'
+     );
+    plusButton.simulate('click');
+    expect(wrapper.state().number).toBe(1);
+   });
 });
 ```
 
