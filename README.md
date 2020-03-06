@@ -208,6 +208,9 @@ describe('<Counter />', () => {
        name="김민준"
        username="velopert"
      />
+   `;
+
+
  // Full Rendering의 경우에는 하위까지 보여짐  
  //   <Profile
  //   name="김민준"
@@ -226,7 +229,6 @@ describe('<Counter />', () => {
  //   </div>
  // </Profile>
    </div>
-   `;
 ```
 
 **장점**
