@@ -86,7 +86,7 @@ Lines        : Unknown% ( 0/0 )
 반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어있다(Out of box).
 또한, Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있다.
 
-1. **Snapshot testing**: 사전에 특정 컴포넌트, 페이지 등의 랜더링된 결과물을 찍어 놓고 이후에 새로운 랜더링 결과물과 차이가 있는지 비교한다.
+1. **Snapshot testing**: 사전에 특정 컴포넌트, 페이지 등의 렌더링된 결과물을 찍어 놓고 이후에 새로운 렌더링 결과물과 차이가 있는지 비교한다.
 ```js
 // src/component/counter.test.js
 it("matches snapshot", () => {
@@ -102,7 +102,7 @@ Jest의 경우에는 다음의 명령어로 가능하다: ```jest --updateSnapsh
 
 추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 한다.
 
-1. **Full Rendering**: 실제 DOM을 갖고 랜더링한다. 이로인해서 유저가 실제로 확인하는 DOM을 갖고 테스트가 가능하다. [참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
+1. **Full Rendering**: 실제 DOM을 갖고 렌더링한다. 이로인해서 유저가 실제로 확인하는 DOM을 갖고 테스트가 가능하다. [참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
    
 2. **Shallow Rendering**: 컴포넌트 내부에 또다른 리액트 컴포넌트가 있다면 이를 렌더링하지 않는다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
 
@@ -193,7 +193,7 @@ describe('<Counter />', () => {
 });
 ```
 
-실제 랜더링되는 ```<Counter/>```는 다음과 같다.
+실제 렌더링되는 ```<Counter/>```는 다음과 같다.
 ```js
    // Jest Snapshot v1, https://goo.gl/fbAQLP
 
@@ -241,7 +241,7 @@ describe('<Counter />', () => {
 
 **장점**
 1. 모든 DOM을 렌더링 하지 않아서 빠르다.
-2. 하위 component는 랜더링 되지 않기 때문에 어떠한 의존성 없이 테스트가 가능하다. 예: ```하위 컴포넌트에서 componentWillRerecieve를 통한 상위 컴포넌트 state 변경``` 
+2. 하위 component는 렌더링 되지 않기 때문에 어떠한 의존성 없이 테스트가 가능하다. 예: ```하위 컴포넌트에서 componentWillRerecieve를 통한 상위 컴포넌트 state 변경``` 
    
 **단점**
 1. 예를들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보여지고 isShow 값이 제대로 나왔는지 판별한다고 가정했을 때 값이 true인 것은 판별 수 있으나 실제로 DOM이 보여지는 상태인지 확인 할 수 없다.
