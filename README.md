@@ -255,7 +255,7 @@ describe('<Counter />', () => {
 
 ```js
 // https://jestjs.io/docs/en/mock-functions.html
-// x => 42 + x 함수를 추적하는 것을 보여주는 예제
+// x => 42 + x 함수를 Mocking하는 것을 보여주는 예제
 // 인자 items의 개수만큼 반복하며 callback함수에 items[index] 인자를 넣어준다.
 function forEach(items, callback) {
   for (let index = 0; index < items.length; index++) {
@@ -263,7 +263,7 @@ function forEach(items, callback) {
   }
 }
 
-// 이제 실제 함수 x => 42 + x 를 추적가능하다.
+// 이제 실제 함수 x => 42 + x 를 Mocking가능하다.
 const mockCallback = jest.fn(x => 42 + x);
 forEach([0, 1], mockCallback);
 
@@ -329,7 +329,7 @@ import SoundPlayer from './sound-player';
  *   f2: (n) => {...}
  *   f3: (n, n1) => void
  * }
- * 이 와 같은 구조라고 할 때 아래의 함수를 사용하면 한번에 모든 함수를 추적할 수 있다.
+ * 이 와 같은 구조라고 할 때 아래의 함수를 사용하면 한번에 모든 함수를 Mocking할 수 있다.
  * 
 jest.mock('./sound-player');
 
@@ -386,7 +386,7 @@ describe("", () => {
 
    it('register sends messeges', () => {
      // register 함수를 실행한다. 
-     // register 안에서 sendEmail, sendSMS 함수를 호출하고 이 두 함수는 위에서 추적이 가능하게 했으므로 추적해 값을 테스트한다.
+     // register 안에서 sendEmail, sendSMS 함수를 호출하고 이 두 함수는 위에서 Mocking이 가능하게 했으므로 추적한 값을 테스트한다.
      register(user);
 
      expect(sendEmail).toBeCalledTimes(1);
@@ -407,13 +407,13 @@ describe("Test! mocks", () => {
    };
 
    it('stub .toBeCalled()', () => {
-     // jest.fn은 함수를 mocking 하는 반면
+     // jest.fn은 함수를 Mocking 하는 반면
      const stub = jest.fn(x => { return 1 });
      stub();
      expect(stub).toBeCalled();
    });
    it('spyOn .toBeCalled()', () => {
-     // jest.spyOn을 통해 해당 방식으로 오브젝트안의 함수를 mocking할 수 있다.
+     // jest.spyOn을 통해 해당 방식으로 오브젝트안의 함수를 Mocking할 수 있다.
      const somethingSpy = jest.spyOn(myObj, 'doSomething');
      myObj.doSomething();
      expect(somethingSpy).toBeCalled();
