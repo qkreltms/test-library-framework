@@ -323,8 +323,16 @@ axios.get('/users')
 ```js
 // https://jestjs.io/docs/en/es6-class-mocks#spying-on-the-constructor
 import SoundPlayer from './sound-player';
+/** SoundPlayer 모듈이 반환하는 객체가
+ * {
+ *   f1: () => {...}
+ *   f2: (n) => {...}
+ *   f3: (n, n1) => void
+ * }
+ * 이 와 같은 구조라고 할 때 아래의 함수를 사용하면 한번에 모든 함수를 추적할 수 있다.
+ * 
 jest.mock('./sound-player');
-// 이제 ./sound-player 를 추적할 수 있다.
+
 ```
 
 > 이메일과 문자를 보낼 때 사용하는 messageService라는 자바스크립트 모듈이 있다고 가정해보겠습니다.
