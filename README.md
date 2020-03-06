@@ -407,14 +407,20 @@ describe("Test! mocks", () => {
    };
 
    it('stub .toBeCalled()', () => {
-     const stub = jest.fn();
+     // jest.fn은 함수를 mocking 하는 반면
+     const stub = jest.fn(x => { return 1 });
      stub();
      expect(stub).toBeCalled();
    });
    it('spyOn .toBeCalled()', () => {
+     // jest.spyOn을 통해 해당 방식으로 오브젝트안의 함수를 mocking할 수 있다.
      const somethingSpy = jest.spyOn(myObj, 'doSomething');
      myObj.doSomething();
      expect(somethingSpy).toBeCalled();
+
+     // 하지만 jest.spyOn을 안쓰고 아래의 방식으로도 할 수 있다. 
+     // messageService.sendEmail = jest.fn();
+     // messageService.sendSMS = jest.fn();
    });
 });
 ```
