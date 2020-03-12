@@ -579,7 +579,6 @@ describe('<Profile />', () => {
 가장 좋은 점은 각각의 테스트 케이스가 어떻게 진행됐는지 눈으로 확인이 가능하다.
 한 파일 안의 테스트 케이스들은 동기적으로 실행되지만 각 페이지 별로 실행함으로써 병렬적으로 실행 가능하다.
 DOM을 get할 때 4초간 기다림 및 자동적으로 Retry 하며 Mocha를 사용한다.
-Mocha를 사용한다.
 
 ```js
 describe('Post Resource', function() {
