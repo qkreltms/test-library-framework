@@ -59,31 +59,30 @@ Lines        : Unknown% ( 0/0 )
 
 저자: [qkreltms](https://github.com/qkreltms)
 
-이 문서의 주소: https://github.com/qkreltms/testingLibrary-playground
+이 문서의 주소는: https://github.com/qkreltms/testingLibrary-playground
   
 
-## 개요
-
+## 개요:sunny:
 점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 주목받고 있습니다. 매 순간 코드를 수정할 때 예상치 못한 사이드 이펙트와 버그가 무엇이 있으며 이것을 알아보기 위해 결과물을 확인합니다. [이것의 비용은 프로젝트의 규모에 비례해 증가하고 있으며 어느 순간부터는 개발 속도가 급격히 느려집니다.](https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort) 한 가지 강력한 대비책은 테스트 자동화를 통해 개발에 집중할 수 있는 환경을 만드는 것입니다.
 
-다음의 목차에 따라 진행하며 결론 부분에서는 최종적으로 어떤 툴을 사용하는게 좋을지 정리하겠습니다.
+다음의 목차에 따라 진행하며 결론 부분에서는 최종적으로 어떤 툴을 사용하는게 좋을지 도출하겠습니다.
 ## 목차
 1. 용어설명
 2. 인기있는 테스트 프레임워크/라이브러리
 3. 트렌드
-4. 적합한 테스트 툴 조합
+4. 테스트 툴 조합
 5. 결론
 
 ## 용어설명:
 
 ### 1. **Out of box**
-별도의 설정, 설치 없이 바로 설정 가능.
+:cherry_blossom: 별도의 설정, 설치 없이 바로 설정 가능합니다.
   
 테스트 프레임워크 Mocha는 별도의 Mocking, Spy library를 골라 설치해 사용해 사용자가 자유롭게 선택할 수 있다는 장점이 있는 반면 번거로운 환경 설정과 개발 환경 파편화는 사용자를 골치 아프게 합니다. 반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어 있습니다.(Out of box).
 더 나아가 Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있습니다.
 
 ### 2. **Snapshot testing**
-사전에 특정 컴포넌트, 페이지 등의 렌더링된 결과물을 찍어 놓고 이후에 새로운 렌더링 결과물과 차이가 있는지 비교한다.
+사전에 특정 컴포넌트, 페이지 등의 렌더링된 결과물을 찍어 놓고 이후에 새로운 렌더링 결과물과 차이가 있는지 비교합니다.
 ```js
 // src/component/counter.test.js
 it("matches snapshot", () => {
@@ -247,15 +246,15 @@ describe('<Counter />', () => {
 ```
 
 **장점**
-1. 모든 DOM을 렌더링 하지 않아서 빠르다. (그러나 Milliseconds 단위로 빨라지기 때문에 무시할 만한 수준이다.)
-2. 하위 component는 렌더링 되지 않기 때문에 어떠한 의존성 없이 테스트가 가능하다. 예: ```하위 컴포넌트에서 componentWillRerecieve를 통한 상위 컴포넌트 state 변경``` 
+1. 모든 DOM을 렌더링 하지 않아서 빠릅니다. (그러나 Milliseconds 단위로 빨라지기 때문에 무시할 만한 수준이다.)
+2. 하위 component는 렌더링 되지 않기 때문에 어떠한 의존성 없이 테스트가 가능합니다. 예: 하위 컴포넌트에서 ```componentWillRerecieve()```를 통한 상위 컴포넌트 변경 
    
 **단점**
-1. 하위 컴포넌트를 포함한 렌더링이 이뤄져야 실제로 유저가 볼 수 있는 모든 작동을 확인하고 검증이 가능하다. 
+1. 하위 컴포넌트를 포함한 렌더링이 이뤄져야 실제로 유저가 볼 수 있는 모든 작동을 확인하고 검증이 가능하지만 shallow 렌더링으로는 할 수 없습니다. 
 
 추가적으로 Shallow rendering의 경우 [RTL에서는 권장하지 않는 방법입니다.](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
 
-### 5. **Mocking**
+### 5. **Mock**
 구현된 함수 아래에 **가짜 함수**를 만들며 함수의 매개 변수나 호출을 추적하거나 원하는 값을 반환하도록 할 수 있습니다.  
 간단한 함수에 mock을 달아주는 예제부터 실사용 예제까지 알아보겠습니다.
 
@@ -287,13 +286,13 @@ expect(mockCallback.mock.calls[1][0]).toBe(1);
 expect(mockCallback.mock.results[0].value).toBe(42);
 ```
 
-**또 다른 mock의 사용처는 api 통신 모듈**이 있습니다.
-api를 호출하면 실제 서버에 접근에 데이터를 조작하므로 매번 테스트를 실행시 값이 달라질 수 있고 자칫하면 Production 레벨까지 영향을 끼칠수 있습니다. 
-원하는 값이 계속 반환되게 하려면 api 모듈에 mock을 달아 특정한 경우에 항상 원하는 결과값이 나오도록 할 수 있습니다.
+**또 다른 mock의 사용처는 API 통신 모듈**이 있습니다.
+API를 호출하면 실제 서버에 접근에 데이터를 조작하므로 매번 테스트를 실행시 값이 달라질 수 있고 자칫하면 Production 레벨까지 영향을 끼칠수 있습니다. 
+원하는 값이 계속 반환되게 하려면 API 모듈에 mock을 달아 특정한 경우에 항상 원하는 결과값이 나오도록 할 수 있습니다.
 ```js
 // https://github.com/ctimmerm/axios-mock-adapter
-// 만약 어떤 함수 또는 컴포넌트가 있고 api 요청을 통해 값을 받는다면 그 요청을 mock이 대신할 수 있다.
-// 이것의 장점은 실제 api를 사용하지 않고, 항상 예측가능한, 일관된 데이터를 반환한다는 점.
+// 만약 어떤 함수 또는 컴포넌트가 있고 api 요청을 통해 값을 받는다면 그 요청을 mock이 대신할 수 있습니다.
+// 이것의 장점은 실제 API를 사용하지 않고, 항상 예측가능한, 일관된 데이터를 반환한다는 점.
 
 var mock = new MockAdapter(axios);
 // Mock any GET request to /users
@@ -305,13 +304,14 @@ users: [
   ]
 });
 
+// 해당 API를 호출했을 때 항상 일정한 값을 반환한다.
 axios.get('/users')
   .then(function(response) {
     console.log(response.data); // { users: [ { id: 1, name: 'John Smith' } ] }
 });
 ```
 이제 실제 예제로 알아보겠습니다.
-이메일과 문자를 보낼 때 사용하는 messageService라는 자바스크립트 모듈이 있다고 가정해보겠습니다.
+> 이메일과 문자를 보낼 때 사용하는 messageService라는 자바스크립트 모듈이 있다고 가정해보겠습니다.
 이렇게 외부 매체를 통해 메세지를 보내는 작업은 어플리케이션에서 수시로 일어날 수 있지만, 단위 테스트 측며에서는 모킹 기법 없이는 처리가 매우 끼다로운 대표적인 케이스 중 하나입니다.
 왜냐하면, 일반적으로 이메일과 문자는 외부 서비스를 이용하는 경우가 많아서 테스트 실행 시 마다 불필요한 과금 발생할 수 있고, 해당 외부 서비스에 장애가 발생하면 관련 테스트가 모두 깨지는
 불상사가 발생할 수 있기 때문입니다. 
@@ -336,7 +336,8 @@ export function register(user) {
   sendEmail(user.email, message);
   sendSMS(user.phone, message);
 }
-//////////////////////
+```
+```js
 // 테스트 코드
 import { register } from './userService';
 import * as messageService from './messageService';
@@ -426,12 +427,12 @@ SoundPlayer.f1.mockImplementation(() => Promise.resolve(123));
 ```
 
 **장점**
-1. 고립성을 유지한다. 
-함수에 사용한다면 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있다.
+1. 고립성을 유지합니다. 
+함수에 사용한다면 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있습니다.
 
-2. 어떤 일들이 발생했는지를 기억할 수 있기 때문에 내부적으로 어떻게 사용되는지 검증할 수 있다. [참고](https://www.daleseo.com/jest-fn-spy-on/)
+2. 어떤 일들이 발생했는지를 기억할 수 있기 때문에 내부적으로 어떻게 사용되는지 검증할 수 있습니다. [참고](https://www.daleseo.com/jest-fn-spy-on/)
 
-3. 실제 DB, API 호출을 하지 않으므로 비용을 절약할 수 있다.
+3. 실제 DB, API 호출을 하지 않으므로 비용을 절약할 수 있습니다.
 
 **단점**
 1. 러닝커브(?)
@@ -441,7 +442,7 @@ SoundPlayer.f1.mockImplementation(() => Promise.resolve(123));
 #### 1. Mocha
 ⭐19.1k(20-03-05 기준)
 
-과거 수년간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있다. 각각의 테스트 케이스는 동기적으로 작동한다.
+과거 수년간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있습니다. 각각의 테스트 케이스는 동기적으로 작동합니다.
 ```js
 // https://heropy.blog/2018/03/16/mocha/
 const should = require('chai').should();
@@ -463,9 +464,9 @@ describe('Testing 1', function () {
 #### 2. Jest
 ⭐ 29.9k
 
-기본적으로 Out of box이며 Mocha와 다르게 각 테스트 케이스는 병렬적으로 작동하므로 어느정도 속도의 향상을 가져올 수 있다.
+기본적으로 Out of box이며 Mocha와 다르게 각 테스트 케이스는 병렬적으로 작동하므로 어느정도 속도의 향상을 가져올 수 있습니다.
 
-그러나 각 테스트 케이스를 고립적인 상황을 만들기 위해 Virtual machine을 사용하므로 처음으로 각각의 테스트 케이스 호출시 새로 module을 import해 Mocha보다 느린 경우가 있을 수 있다.(다음 실행시에는 cache된 데이터 사용)
+그러나 각 테스트 케이스를 고립적인 상황을 만들기 위해 Virtual machine을 사용하므로 처음으로 각각의 테스트 케이스 호출시 새로 module을 import해 Mocha보다 느린 경우가 있을 수 있습니다.(but 다음 실행시에는 cache된 데이터 사용)
 ```js
 describe('Testing 1', () => {
   it('Test case title: HelloWorld', () => {
@@ -476,53 +477,65 @@ describe('Testing 1', () => {
 
 **장점**
 1. 각 테스트 케이스는 고립적 (VM 사용)
-2. 각 테스트 케이스는 병렬적으로 작동해 어느정도 속도 향상이 있을 수 있음
+2. 각 테스트 케이스는 병렬적으로 작동해 어느정도 속도 향상이 있을 수 있습니다.
 3. 현재 가장 인기 많은 테스트 프레임워크
-4. 기본적으로 Out of Box이므로 따로 환경설정이 필요하지 않음
+4. 기본적으로 Out of Box이므로 따로 환경설정이 필요하지 않습니다.
 5. Facebook에서 유지보수
 
 **단점**
-1. 각 테스트 케이스가 고립적이므로 매번 모듈을 새로 가져와서 속도가 느릴수 있음
+1. 각 테스트 케이스가 고립적이므로 매번 모듈을 새로 가져와서 속도가 느릴수 있습니다.
 
 #### 3. Enzyme
 ⭐ 18.5k
 
-가상의 환경 JDOM에서 컴포넌트를 렌더링할 수 있는 기능을 제공하며 DOM과 상호작용이 정상적인지, props, state, instance의 함수들은 원하는 값이 나오는지 테스트 가능하다.
+가상의 환경 JDOM에서 컴포넌트를 렌더링할 수 있는 기능을 제공하며 DOM과 상호작용이 정상적인지, props, state, instance의 함수들은 원하는 값이 나오는지 테스트 가능합니다.
 
 ```js
-// https://enzymejs.github.io/enzyme/
-// 컴포넌트의 props에 접근해 값을 판별한다.
-describe('<Foo />', () => {
-  it('allows us to set props', () => {
-    const wrapper = mount(<Foo bar="baz" />);
-    expect(wrapper.props().bar).to.equal('baz');
-    wrapper.setProps({ bar: 'foo' });
-    expect(wrapper.props().bar).to.equal('foo');
-    // 
+// https://velog.io/@velopert/react-testing-with-enzyme
+import React from 'react';
+import { mount } from 'enzyme';
+import Profile from './Profile';
+
+describe('<Profile />', () => {
+  it('matches snapshot', () => {
+    const wrapper = mount(<Profile username="velopert" name="김민준" />);
+    expect(wrapper).toMatchSnapshot();
+  });
+  it('renders username and name', () => {
+    const wrapper = mount(<Profile username="velopert" name="김민준" />);
+
+    expect(wrapper.props().username).toBe('velopert');
+    expect(wrapper.props().name).toBe('김민준');
+
+    const boldElement = wrapper.find('b');
+    expect(boldElement.contains('velopert')).toBe(true);
+    const spanElement = wrapper.find('span');
+    expect(spanElement.text()).toBe('(김민준)');
   });
 });
 ```
 
 **장점** 
 1. 컴포넌트를 테스트하는데 가장 많은 기능을 지원하는 라이브러리
-2. 그 중 인기가 가장 많음
-3. AirBnB에서 지원함
+2. 그 중 인기가 가장 많습니다.
+3. AirBnB에서 지원
    
 **단점**
-1. 기능이 많은 만큼 RTL에 비해 러닝커브가 있음
+1. 기능이 많은 만큼 RTL에 비해 러닝커브가 있습니다.
 
 #### 4. RTL
 ⭐ 10.9k
 
-Ezyme의 하위 호환, Shallow rendering가 지원되지 않으며, props, state, instance 값을 가져올 수 없음.
-유저 관점의 보여지는 결과에 초점을 맞췄으며 일반적으로 Enzyme보다 쉽다고 여겨짐.
-예를들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보여진다고 가정했을 때 isShow 값이 제대로 나왔는지 판별한다고 가정했을 때 값이 true인 것은 판별 수 있으나 실제로 DOM이 보여지는 상태인지 확인 할 수 없다.
+Ezyme의 하위 호환(상호작용, 가상환경에서 렌더링), Shallow rendering가 지원되지 않으며, 컴포넌트에서 props, state, instance 값을 가져올 수 없습니다.
+유저 관점의 보여지는 결과에 초점을 맞췄습니다.
+예를들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보여지는 컴포넌트가 있을 때 업데이트 계속하다가 여러 사이드 이펙트로 ```props.isShow```값이 true여도 안보여지는 경우가 발생할 수 있습니다. (state의 값보다는 실제로 DOM이 보여지는지 결과로 판별합니다.)
+일반적으로 Enzyme보다 쉽다고 여겨집니다.
 
-> RTL 에서는 Enzyme 과 달리 모든 테스트를 DOM 위주로 진행합니다. 그리고, 컴포넌트의 props 나 state 를 조회하는 일은 없습니다. 컴포넌트를 리팩토링하게 될 때에는, 주로 내부 구조 및 네이밍은
-> 많이 바뀔 수 있어도 실제 작동 방식은 크게 바뀌지 않습니다. 
+> RTL 에서는 Enzyme 과 달리 모든 테스트를 DOM 위주로 진행합니다. 그리고, 컴포넌트의 props 나 state 를 조회하는 일은 없습니다. 컴포넌트를 리팩토링하게 될 때에는, 주로 내부 구조 및 네이밍은 많이 바뀔 수 있어도 실제 작동 방식은 크게 바뀌지 않습니다. 
 RTL는 이 점을 중요시 여겨서, 컴포넌트의 기능이 똑같이 작동한다면 컴포넌트의 내부 구현 방식이 많이 바뀌어도 테스트가 실패하지 않도록 설계되었습니다.
  추가적으로, Enzyme 은 엄청나게 다양한 기능을 제공하는 반면, RTL 에는 정말 필요한 기능들만 지원을 해줘서 매우 가볍고, 개발자들이 일관성 있고 좋은 관습을 따르는 테스트 코드를
-> 작성 할 수 있도록 유도해줍니다. [참고](https://velog.io/@velopert/react-testing-library)
+> 작성 할 수 있도록 유도해줍니다. 
+[참고](https://velog.io/@velopert/react-testing-library)
 ```js
 // https://velog.io/@velopert/react-testing-library
 Profile = ({ username, name }) => {
@@ -559,16 +572,16 @@ describe('<Profile />', () => {
 3. 정말 필요한 것만 포함하여 가벼운 라이브러리
 
 **단점**
-1. 가볍다는 것은 기능이 많지 않다는 것을 의미함
-
+1. 컴포넌트의 props, state 값을 조회하지 못 하기 때문에 간단하게 작성될 코드가 어렵게 작성될 수 있습니다.
+변수값이 어떤지만 확인해보고 끝날 일을 DOM 안의 text를 찾고 판별하는 방식으로 하게 됩니다..
 #### 5. Cypress
 
 ⭐ 18.8k
 
-기본적으로 RTL과 비슷하며 이것 또한 사용자의 입장에서 테스트 진행.
-가장 좋은 점은 각각의 테스트 케이스가 어떻게 진행됐는지 눈으로 확인이 가능하다.
-한 파일 안의 테스트 케이스들은 동기적으로 실행되지만 각 페이지 별로 실행함으로써 병렬적으로 실행 가능하다.
-DOM을 get할 때 4초간 기다림 및 자동적으로 Retry 하며 Mocha를 사용한다.
+기본적으로 RTL과 비슷하며 이것 또한 사용자의 입장에서 테스트 진행합니다.
+가장 좋은 점은 각각의 테스트 케이스가 어떻게 진행됐는지 눈으로 확인이 가능합니다.
+한 파일 안의 테스트 케이스들은 동기적으로 실행되지만 각 페이지 별로 실행함으로써 병렬적으로 실행 가능합니다.
+DOM을 get할 때 4초간 기다림 및 자동적으로 Retry 하며 Mocha를 사용합니다.
 
 ```js
 describe('Post Resource', function() {
@@ -593,89 +606,55 @@ describe('Post Resource', function() {
 })
 ```
 
+Cypress를 설치하면 자동적으로 폴더가 생성되는데 각각의 폴더는 다음의 목적을 가지고 있습니다.
+```
+cypress
+  ㄴfixtures // Asset을 저장하는 공간. 여기에 저장할 경우 cy.fixture(filePath)와 같은 형식으로 불러올수 있음
+    ㄴexample.json
+  ㄴintegration // 실제 테스트 코드가 위치하는 공간
+  ㄴplugins 
+  ㄴsupport // 각 테스트 코드가 실행되기전 거치는 공간. global단으로 무언가를 실행 시키고 싶을때 사용.
+```
+
 **장점**
-1. 읽기 쉬운 테스트 코드 - 각 테스트 케이스는 동기적으로 실행되며, chaning 패턴을 사용함
-2. 어렵지 않은 난이도 - 기본적으로 DOM을 가져올 때 자동적으로 4초간 기다림, 마지막 줄이 실패시 자동적으로 4초간 Retry함 
-3. 문서가 잘 작성되어있음
+1. 읽기 쉬운 테스트 코드
+```cy.get(...).should(...).and(...).should(...)``` 와 같이 체이닝 패턴으로 쉽게 이해가 가능하며 각각의 코드는 동기적으로 실행되 쉽게 이해가 가능합니다.
+
+2. 어렵지 않은 난이도
+기본적으로 DOM을 가져올 때 자동적으로 4초간 기다림, 마지막 줄이 실패시 자동적으로 4초간 Retry합니다.
+
+3. 문서가 잘 작성되어 있습니다.
 4. 유저의 관점에서 작성된 라이브러리 
 
 **단점**
-1. 실제로 TodoApp 테스트 케이스 작성시에도 발견할 수 있는 [버그](https://github.com/cypress-io/cypress/issues/6636)가 존재
-2. 완벽하지 않은 Typescript 지원
-3. Jest + RTL에 비해 많지 않은 예제
-4. Typescript, React, Test coverage를 지원시 환경 설정의 까다로움이 존재
+1. 완벽하지 않은 Typescript 지원
+2. Typescript, React, Test coverage를 지원시 환경 설정의 까다로움이 존재합니다.
 
-## 트렌드
-
+## 트렌드:rocket:
 ![trand1](./trand%20horizontal.png)
-
 ![trand2](./trand%20quadrant.png)
-
-
-## 적합한 테스트 툴 조합
-
+## 테스트 툴 조합
 1. **Cypress**
 2. **Jest + RTL**
-  
 
-**선택의 우선순위**
- 
-1. 테스트가 메인은 아님으로 쉬우면서 빠르게 작성가능 하면 좋겠다.
-2. Stackoverflow에 질문하면 답변이 잘 되는, 대부분이 사용하는 테스트 라이브러리이면 좋겠다.
-3. 리팩토링 해도 테스트에 영향이 없는 실제 DOM이 어떻게 작동되는지에 더 초점을 맞춘 테스트 하고 싶다.
+여러 툴 중에 다음의 목적에 맞게 정했습니다.
+1. 쓰기 쉬워야 한다.
+테스트 코드만 작성하면 일은 언제 끝내고 집은 언제가나~?:innocent:
+2. 어느정도 트렌드를 따라가야 한다.
+시대에 뒤쳐지지 않으면서 Stackoverflow, github에 질문 올리면 잘 답변해주는 툴을 사용하고 싶어요ㅠ:cry:
 
 ### 조합 1. Cypress
-
-**선택의 이유**
-
-1. DOM 위주의 테스트
-2. 최근 뜨겁게 떠오르고 있음
-4. 단점에도 불구하고 위의 나열된 테스트 프레임워크/라이브러리 중 가장 쉽게 익힐수 있으며 일반적으로 가장 짧은 코드로 사용이 가능하다.
-5. ```cy.get(...).should(...).and(...).should(...)``` 와 같이 체이닝 패턴으로 쉽게 이해가 가능하며 각각의 케이스는 동기적으로 실행되 코드를 읽고 쉽게 이해가 가능하다.
-6. 어떤 DOM을 선택하고 이벤트가 이뤄졌는지 쉽게 확인이 가능하다.
-
-Cypress를 설치하면 자동적으로 폴더가 생성되는데 이 폴더의 구조를 설명한다.
-
-```
-/cypress
-  /fixtures - Asset을 저장하는 공간. 여기에 저장할 경우 cy.fixture(filePath)와 같은 형식으로 불러올수 있음
-    - example.json
-
-  /integration - 실제 테스트 코드가 위치하는 공간
-  /plugins
-  /support - 각 테스트 코드가 실행되기전 거치는 공간. Global로 무언가를 실행 시키고 싶을때 사용.
-```
-
 #### 실사용 예제
 **예제 위치** /cypress
-
 **실행**: ```yarn cypress 또는 yarn cypress:runCli```
 
 ### 조합 2. Jest + RTL
-
-**선택의 이유**
-
-1. DOM위주의 테스트 진행시 가장 일반적으로 사용되는 조합.
-2. Enzyme 보다는 RTL이 일반적으로 더 쉽다고 여겨지므로.
-
 #### 실사용 예제
 **예제 위치**: src/component
-
 **실행**: ```yarn test```
 
 
-## 결론
-
-### **Cypress**
-
-여러 단점이 있음에도 불구하고 우선순위의 첫 번째인
-
-1. **테스트가 메인은 아님으로 쉬우면서 빠르게 작성가능 하면 좋겠다.**
-
-에 가장 알맞다고 생각되며 우선순의 두 번째인
-
-2. **Stackoverflow에 질문하면 답변이 잘 되는, 대부분이 사용하는 테스트 라이브러리이면 좋겠다.**
-
-를 알아봤을 때 실제 필자가 Github를 통해 해당 라이브러리에 질문을 했을 때 하루안에 답변을 빠르게 얻을 수 있었으며 Stackoverflow에 Cypress, Mocha, Jest, React-testing-library를 검색해서 결과 숫자를 봤을 때 Cypress, Mocha가 가장 많았다. 
-
-그 외에 테스트 케이스를 작성하면서 약간의 즐거움이 있었음.
+## :tada:결론:tada:
+어떤 조합이 가장 자신에게 알맞다고 생각하셨나요?
+저는 **Cypress** 입니다. 환경 설정이 까다롭다는 단점이 있지만 메소드 체이닝 패턴으로 이어가는 형식으로 코드가 간결했고 비동기 코드도 동기적으로 실행되어 순차적으로 코드를 읽으며 이해하기 어렵지 않았습니다.
+사용하면서 맞딱뜨린 문제의 대부분은 잘 정리된 문서에서 해결책을 찾을 수 있었고, 그래도 부족한 부분은 1일 이내에 github에서 답변을 얻을 수 있었습니다.
