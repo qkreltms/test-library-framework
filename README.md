@@ -107,10 +107,10 @@ Jest의 경우에는 다음의 명령어로 가능합니다: ```jest --updateSna
 추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 합니다.
 
 ### 3. **Full Rendering**
-컴포넌트를 렌더링 할 때 하위 컴포넌트 모두를 렌더링합니다.
+가상의  DOM에서 컴포넌트를 렌더링 할 때 하위 컴포넌트 모두를 렌더링합니다.
    
 ### 4. **Shallow Rendering**
-대상 컴포넌트만 렌더링 하며 하위 컴포넌트는 렌더링 하지 않습니다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
+가상의  DOM에서 대상 컴포넌트만 렌더링 하며 하위 컴포넌트는 렌더링 하지 않습니다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
 
 만약 아래의 컴포넌트가 있을 때
 ```js
