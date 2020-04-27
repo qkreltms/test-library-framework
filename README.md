@@ -63,7 +63,11 @@ Lines        : Unknown% ( 0/0 )
   
 
 ## 개요:sunny:
-점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 주목받고 있습니다. 매 순간 코드를 수정할 때 예상치 못한 사이드 이펙트와 버그가 무엇이 있으며 이것을 알아보기 위해 결과물을 확인합니다. [이것의 비용은 프로젝트의 규모에 비례해 증가하고 있으며 어느 순간부터는 개발 속도가 급격히 느려집니다.](https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort) 한 가지 강력한 대비책은 테스트 자동화를 통해 개발에 집중할 수 있는 환경을 만드는 것입니다.
+점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 주목받고 있습니다. 
+
+매 순간 코드를 수정할 때 예상치 못한 사이드 이펙트와 버그가 무엇이 있으며 이것을 알아보기 위해 결과물을 확인합니다. [이것의 비용은 프로젝트의 규모에 비례해 증가하고 있으며 어느 순간부터는 개발 속도가 급격히 느려집니다.](https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort) 
+
+한 가지 강력한 대비책은 테스트 자동화를 통해 개발에 집중할 수 있는 환경을 만드는 것입니다.
 
 다음의 목차에 따라 진행하며 결론 부분에서는 최종적으로 어떤 툴을 사용하는게 좋을지 도출하겠습니다.
 ## 목차
@@ -78,7 +82,11 @@ Lines        : Unknown% ( 0/0 )
 ### 1. **Out of box**
 :cherry_blossom: 별도의 설정, 설치 없이 바로 설정 가능합니다.
   
-테스트 프레임워크 Mocha는 별도의 Mocking, Spy library를 골라 설치해 사용해 사용자가 자유롭게 선택할 수 있다는 장점이 있는 반면 번거로운 환경 설정과 개발 환경 파편화는 사용자를 골치 아프게 합니다. 반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어 있습니다.(Out of box).
+테스트 프레임워크 Mocha는 별도의 Mocking, Spy library를 골라 설치해 사용해 사용자가 자유롭게 선택할 수 있다는 장점이 있는 반면 번거로운 환경 설정과 개발 환경 파편화는 사용자를 골치 아프게 합니다. 
+
+반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어 있습니다.(Out of box).
+
+
 더 나아가 Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있습니다.
 
 ### 2. **Snapshot testing**
@@ -162,29 +170,34 @@ describe('<Counter />', () => {
     // 현재의 스냅샷이 이전 스냅샷과 같은지 확인한다.
     expect(wrapper).toMatchSnapshot();
   });
+  
   // jest에서 test는 it과 동일한 역할을 수행한다.
   test('has initial props', () => {
     const wrapper = shallow(<Counter />);
     컴포넌트의 number prop이 0과 같은지 확인한다.
     expect(wrapper.props().number).toBe(0);
   });
+  
   it('has initial number', () => {
     const wrapper = shallow(<Counter />);
     컴포넌트의 number state가 0과 같은지 확인한다.
     expect(wrapper.state().number).toBe(0);
   });
+  
   it('increases', () => {
     const wrapper = shallow(<Counter />);
     // 컴포넌트의 ```handleIncrease()``` 함수를 호출했을 때 number state가 1이 되는지 확인한다.
     wrapper.instance().handleIncrease();
     expect(wrapper.state().number).toBe(1);
   });
+  
   it('decreases', () => {
     const wrapper = shallow(<Counter />);
     // 컴포넌트의 ```handleDecrease()``` 함수를 호출했을 때 number state가 -1이 되는지 확인한다.
     wrapper.instance().handleDecrease();
     expect(wrapper.state().number).toBe(-1);
   });
+  
   it('calls handleIncrease', () => {
     const wrapper = shallow(<Counter />);
     // 컴포넌트에서 button이고 이 안의 텍스트가 +1인 DOM을 찾는다.
@@ -287,7 +300,9 @@ expect(mockCallback.mock.results[0].value).toBe(42);
 ```
 
 **또 다른 mock의 사용처는 API 통신 모듈**이 있습니다.
+
 API를 호출하면 실제 서버에 접근에 데이터를 조작하므로 매번 테스트를 실행시 값이 달라질 수 있고 자칫하면 Production 레벨까지 영향을 끼칠수 있습니다. 
+
 원하는 값이 계속 반환되게 하려면 API 모듈에 mock을 달아 특정한 경우에 항상 원하는 결과값이 나오도록 할 수 있습니다.
 ```js
 // https://github.com/ctimmerm/axios-mock-adapter
@@ -312,9 +327,11 @@ axios.get('/users')
 ```
 이제 실제 예제로 알아보겠습니다.
 > 이메일과 문자를 보낼 때 사용하는 messageService라는 자바스크립트 모듈이 있다고 가정해보겠습니다.
-이렇게 외부 매체를 통해 메세지를 보내는 작업은 어플리케이션에서 수시로 일어날 수 있지만, 단위 테스트 측며에서는 모킹 기법 없이는 처리가 매우 끼다로운 대표적인 케이스 중 하나입니다.
-왜냐하면, 일반적으로 이메일과 문자는 외부 서비스를 이용하는 경우가 많아서 테스트 실행 시 마다 불필요한 과금 발생할 수 있고, 해당 외부 서비스에 장애가 발생하면 관련 테스트가 모두 깨지는
-불상사가 발생할 수 있기 때문입니다. 
+
+> 이렇게 외부 매체를 통해 메세지를 보내는 작업은 어플리케이션에서 수시로 일어날 수 있지만, 단위 테스트 측며에서는 모킹 기법 없이는 처리가 매우 끼다로운 대표적인 케이스 중 하나입니다.
+
+> 왜냐하면, 일반적으로 이메일과 문자는 외부 서비스를 이용하는 경우가 많아서 테스트 실행 시 마다 불필요한 과금 발생할 수 있고, 해당 외부 서비스에 장애가 발생하면 관련 테스트가 모두 깨지는 불상사가 발생할 수 있기 때문입니다. 
+
 [참고](https://www.daleseo.com/jest-mock-modules/)
 
 ```js
@@ -376,6 +393,7 @@ describe("", () => {
 ```
 추가로 함수를 mocking하는 대표적인 4가지 함수를 알아보겠습니다.
 1. ```jest.fn()```
+
 함수를 mocking합니다. 또한 어떤 인자와 결과를 반환하는 가짜함수를 만들어 완전히 대채시킬수도 있습니다.
     ```js
          const stub = jest.fn(x => { return 1 });
@@ -442,7 +460,11 @@ SoundPlayer.f1.mockImplementation(() => Promise.resolve(123));
 #### 1. Mocha
 ⭐19.1k(20-03-05 기준)
 
-과거 수년간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있습니다. 각각의 테스트 케이스는 동기적으로 작동합니다.
+과거 수년간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 
+
+초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있습니다.
+
+각각의 테스트 케이스는 동기적으로 작동합니다.
 ```js
 // https://heropy.blog/2018/03/16/mocha/
 const should = require('chai').should();
@@ -465,6 +487,7 @@ describe('Testing 1', function () {
 ⭐ 29.9k
 
 기본적으로 Out of box이며 Mocha와 다르게 각 테스트 케이스는 병렬적으로 작동하므로 어느정도 속도의 향상을 가져올 수 있습니다.
+
 
 그러나 각 테스트 케이스를 고립적인 상황을 만들기 위해 Virtual machine을 사용하므로 처음으로 각각의 테스트 케이스 호출시 새로 module을 import해 Mocha보다 느린 경우가 있을 수 있습니다.(but 다음 실행시에는 cache된 데이터 사용)
 ```js
@@ -527,14 +550,19 @@ describe('<Profile />', () => {
 ⭐ 10.9k
 
 Ezyme의 하위 호환(상호작용, 가상환경에서 렌더링), Shallow rendering가 지원되지 않으며, 컴포넌트에서 props, state, instance 값을 가져올 수 없습니다.
+
 유저 관점의 보여지는 결과에 초점을 맞췄습니다.
+
 예를들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보여지는 컴포넌트가 있을 때 업데이트 계속하다가 여러 사이드 이펙트로 ```props.isShow```값이 true여도 안보여지는 경우가 발생할 수 있습니다. (state의 값보다는 실제로 DOM이 보여지는지 결과로 판별합니다.)
+
 일반적으로 Enzyme보다 쉽다고 여겨집니다.
 
 > RTL 에서는 Enzyme 과 달리 모든 테스트를 DOM 위주로 진행합니다. 그리고, 컴포넌트의 props 나 state 를 조회하는 일은 없습니다. 컴포넌트를 리팩토링하게 될 때에는, 주로 내부 구조 및 네이밍은 많이 바뀔 수 있어도 실제 작동 방식은 크게 바뀌지 않습니다. 
-RTL는 이 점을 중요시 여겨서, 컴포넌트의 기능이 똑같이 작동한다면 컴포넌트의 내부 구현 방식이 많이 바뀌어도 테스트가 실패하지 않도록 설계되었습니다.
- 추가적으로, Enzyme 은 엄청나게 다양한 기능을 제공하는 반면, RTL 에는 정말 필요한 기능들만 지원을 해줘서 매우 가볍고, 개발자들이 일관성 있고 좋은 관습을 따르는 테스트 코드를
-> 작성 할 수 있도록 유도해줍니다. 
+
+> RTL는 이 점을 중요시 여겨서, 컴포넌트의 기능이 똑같이 작동한다면 컴포넌트의 내부 구현 방식이 많이 바뀌어도 테스트가 실패하지 않도록 설계되었습니다.
+
+> 추가적으로, Enzyme 은 엄청나게 다양한 기능을 제공하는 반면, RTL 에는 정말 필요한 기능들만 지원을 해줘서 매우 가볍고, 개발자들이 일관성 있고 좋은 관습을 따르는 테스트 코드를 작성 할 수 있도록 유도해줍니다. 
+
 [참고](https://velog.io/@velopert/react-testing-library)
 ```js
 // https://velog.io/@velopert/react-testing-library
@@ -579,8 +607,14 @@ describe('<Profile />', () => {
 ⭐ 18.8k
 
 기본적으로 RTL과 비슷하며 이것 또한 사용자의 입장에서 테스트 진행합니다.
+
+
 가장 좋은 점은 각각의 테스트 케이스가 어떻게 진행됐는지 눈으로 확인이 가능합니다.
+
+
 한 파일 안의 테스트 케이스들은 동기적으로 실행되지만 각 페이지 별로 실행함으로써 병렬적으로 실행 가능합니다.
+
+
 DOM을 get할 때 4초간 기다림 및 자동적으로 Retry 하며 Mocha를 사용합니다.
 
 ```js
@@ -656,5 +690,9 @@ cypress
 
 ## :tada:결론:tada:
 어떤 조합이 가장 자신에게 알맞다고 생각하셨나요?
+
+
 저는 **Cypress** 입니다. 환경 설정이 까다롭다는 단점이 있지만 메소드 체이닝 패턴으로 이어가는 형식으로 코드가 간결했고 비동기 코드도 동기적으로 실행되어 순차적으로 코드를 읽으며 이해하기 어렵지 않았습니다.
+
+
 사용하면서 맞딱뜨린 문제의 대부분은 잘 정리된 문서에서 해결책을 찾을 수 있었고, 그래도 부족한 부분은 1일 이내에 github에서 답변을 얻을 수 있었습니다.
