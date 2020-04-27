@@ -393,13 +393,14 @@ describe("", () => {
 ```
 추가로 함수를 mocking하는 대표적인 4가지 함수를 알아보겠습니다.
 1. ```jest.fn()```
-
 함수를 mocking합니다. 또한 어떤 인자와 결과를 반환하는 가짜함수를 만들어 완전히 대채시킬수도 있습니다.
     ```js
          const stub = jest.fn(x => { return 1 });
         stub();
          expect(stub).toBeCalled();
      ```
+     
+     
 2. ```jest.spyOn()```
 오브젝트 안의 함수를 mocking합니다. 
 ```js
@@ -417,6 +418,8 @@ describe("", () => {
       // 하지만 jest.spyOn을 안쓰고 아래의 방식으로도 할 수 있다. 
      // myObj.doSomething = jest.fn();
 ```
+
+
 3. ```jest.mock()```
 모듈 안의 모든 함수를 mocking 합니다.
 ```js
@@ -433,6 +436,8 @@ import SoundPlayer from './sound-player';
  // **주의!** module을 mocking할 때 꼭 해당 모듈을 import를 해야합니다.
 jest.mock('./sound-player');
 ```
+
+
 4. ```jest.mockImplementation()```
 이미 mock 한 함수를 대채하는 가짜함수를 만들수 있습니다.
 ```js
