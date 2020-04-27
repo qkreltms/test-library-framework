@@ -64,13 +64,9 @@ Lines        : Unknown% ( 0/0 )
 
 ## 개요
 
-점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 주목받고 있다. 매 순간 코드를 수정할 때 예상치 못한 사이드 이펙트와 버그가 무엇이 있으며 이것을 알아보기 위해 결과물을 확인한다. 이것의 비용은 프로젝트의 규모에 비례해 증가하고 있으며 어느 순간부터는 개발 속도가 급격히 느려진다.  [참고](https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort)
-이것의 한 가지 강력한 대비책은 테스트 자동화를 통해 개발에 집중할 수 있는 환경을 만드는 것이다.
+점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 주목받고 있습니다. 매 순간 코드를 수정할 때 예상치 못한 사이드 이펙트와 버그가 무엇이 있으며 이것을 알아보기 위해 결과물을 확인합니다. [이것의 비용은 프로젝트의 규모에 비례해 증가하고 있으며 어느 순간부터는 개발 속도가 급격히 느려집니다.](https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort) 한 가지 강력한 대비책은 테스트 자동화를 통해 개발에 집중할 수 있는 환경을 만드는 것입니다.
 
-이 글에서는 테스트 툴에서 사용되는 용어를 알아본 후 테스트 툴의 추세를 알아본 후 추세의 선두에 있는 테스트 라이브러리 Mocha, Enzyme, Jest, React-testing-library(이하 RTL로 지칭), Cypress를 알아본다.
-
-또한, 이 중 두 조합 Jest + RTL, Cypress를 예제를 통해 진행하며 비교한 후 최종적으로 어떤 테스트 툴을 사용하면 좋은지 결과를 도출한다
-
+다음의 목차에 따라 진행하며 결론 부분에서는 최종적으로 어떤 툴을 사용하는게 좋을지 정리하겠습니다.
 ## 목차
 1. 용어설명
 2. 인기있는 테스트 프레임워크/라이브러리
@@ -80,13 +76,14 @@ Lines        : Unknown% ( 0/0 )
 
 ## 용어설명:
 
-1. **Out of box**: 별도의 설정, 설치 없이 바로 설정 가능.
+### 1. **Out of box**
+별도의 설정, 설치 없이 바로 설정 가능.
   
-테스트 프레임워크 Mocha는 별도의 Mocking, Spy library를 골라 설치해 사용해 사용자가 자유롭게 선택할 수 있다는 장점이 있는 반면 번거로운 환경 설정과 개발 환경 파편화는 사용자를 골치 아프게 한다.
-반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어있다(Out of box).
-또한, Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있다.
+테스트 프레임워크 Mocha는 별도의 Mocking, Spy library를 골라 설치해 사용해 사용자가 자유롭게 선택할 수 있다는 장점이 있는 반면 번거로운 환경 설정과 개발 환경 파편화는 사용자를 골치 아프게 합니다. 반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어 있습니다.(Out of box).
+더 나아가 Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있습니다.
 
-2. **Snapshot testing**: 사전에 특정 컴포넌트, 페이지 등의 렌더링된 결과물을 찍어 놓고 이후에 새로운 렌더링 결과물과 차이가 있는지 비교한다.
+### 2. **Snapshot testing**
+사전에 특정 컴포넌트, 페이지 등의 렌더링된 결과물을 찍어 놓고 이후에 새로운 렌더링 결과물과 차이가 있는지 비교한다.
 ```js
 // src/component/counter.test.js
 it("matches snapshot", () => {
@@ -95,16 +92,18 @@ it("matches snapshot", () => {
 });
 ```
 
-위의 코드가 최초 작성 시에 Counter 컴포넌트의 Snapshot을 특정 폴더에 자동으로 저장해 놓고 테스트가 실행될 때마다 미리 저장된 Snapshot과 다른 점이 있는지 비교한다.
+위의 코드가 최초 작성 시에 Counter 컴포넌트의 Snapshot을 특정 폴더 아래에 자동으로 저장해 놓고 테스트가 실행될 때마다 미리 저장된 Snapshot과 다른 점이 있는지 비교합니다.
 
-만약 Counter 컴포넌트가 변경되었고 Snapshot을 업데이트하고 싶다면 특정 명령어를 입력해 업데이트한다.
-Jest의 경우에는 다음의 명령어로 가능하다: ```jest --updateSnapshot```
+만약 Counter 컴포넌트가 변경되었고 Snapshot을 업데이트하고 싶다면 특정 명령어를 입력해 업데이트 가능합니다.
+Jest의 경우에는 다음의 명령어로 가능합니다: ```jest --updateSnapshot```
 
-추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 한다.
+추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 합니다.
 
-3. **Full Rendering**: 실제 DOM을 갖고 렌더링한다. 이로인해서 유저가 실제로 확인하는 DOM을 갖고 테스트가 가능하다. [참고](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md)
+### 3. **Full Rendering**
+컴포넌트를 렌더링 할 때 하위 컴포넌트 모두를 렌더링합니다.
    
-4. **Shallow Rendering**: 컴포넌트 내부에 또다른 리액트 컴포넌트가 있다면 이를 렌더링하지 않는다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
+### 4. **Shallow Rendering**
+대상 컴포넌트만 렌더링 하며 하위 컴포넌트는 렌더링 하지 않습니다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
 
 만약 아래의 컴포넌트가 있을 때
 ```js
@@ -144,7 +143,7 @@ class Counter extends Component {
         <h2>{this.state.number}</h2>
         <button onClick={this.handleIncrease}>+1</button>
         <button onClick={this.handleDecrease}>-1</button>
-        <Profile />
+        <Profile /> // Profile 컴포넌트 위치
       </div>
     );
   }
@@ -154,46 +153,54 @@ class Counter extends Component {
 아래와 같이 테스트를 진행한다면
 ```js
 import React from 'react';
+// enzyme을 사용한다.
 import { shallow } from 'enzyme';
 import Counter from './Counter';
 
 describe('<Counter />', () => {
   it('matches snapshot', () => {
     const wrapper = shallow(<Counter />);
+    // 현재의 스냅샷이 이전 스냅샷과 같은지 확인한다.
     expect(wrapper).toMatchSnapshot();
   });
-  // test는 it과 동일한 역할을 수행한다.
+  // jest에서 test는 it과 동일한 역할을 수행한다.
   test('has initial props', () => {
     const wrapper = shallow(<Counter />);
+    컴포넌트의 number prop이 0과 같은지 확인한다.
     expect(wrapper.props().number).toBe(0);
   });
   it('has initial number', () => {
     const wrapper = shallow(<Counter />);
+    컴포넌트의 number state가 0과 같은지 확인한다.
     expect(wrapper.state().number).toBe(0);
   });
   it('increases', () => {
     const wrapper = shallow(<Counter />);
+    // 컴포넌트의 ```handleIncrease()``` 함수를 호출했을 때 number state가 1이 되는지 확인한다.
     wrapper.instance().handleIncrease();
     expect(wrapper.state().number).toBe(1);
   });
   it('decreases', () => {
     const wrapper = shallow(<Counter />);
+    // 컴포넌트의 ```handleDecrease()``` 함수를 호출했을 때 number state가 -1이 되는지 확인한다.
     wrapper.instance().handleDecrease();
     expect(wrapper.state().number).toBe(-1);
   });
   it('calls handleIncrease', () => {
-     // 클릭이벤트를 시뮬레이트하고, state 를 확인
     const wrapper = shallow(<Counter />);
+    // 컴포넌트에서 button이고 이 안의 텍스트가 +1인 DOM을 찾는다.
     const plusButton = wrapper.findWhere(
       node => node.type() === 'button' && node.text() === '+1'
      );
+    // 위에서 찾은 버튼을 클릭한다.
     plusButton.simulate('click');
+    // number state가 1이 됐는지 확인한다.
     expect(wrapper.state().number).toBe(1);
    });
 });
 ```
 
-실제 렌더링되는 ```<Counter/>```는 다음과 같다.
+```shallow(<Counter />)```에서 실제 렌더링되는 ```<Counter/>```는 다음과 같습니다.
 ```js
    // Jest Snapshot v1, https://goo.gl/fbAQLP
 
@@ -212,14 +219,14 @@ describe('<Counter />', () => {
      >
        -1
      </button>
+     // Profile의 하위 DOM은 렌더링 되지 않음
      <Profile
        name="김민준"
        username="velopert"
      />
    `;
 
-
- // Full Rendering의 경우에는 하위까지 보여짐  
+ // Full Rendering을 했을 때 표시되는 Profile 컴포넌트  
  //   <Profile
  //   name="김민준"
  //   username="velopert"
@@ -240,22 +247,22 @@ describe('<Counter />', () => {
 ```
 
 **장점**
-1. 모든 DOM을 렌더링 하지 않아서 빠르다.
+1. 모든 DOM을 렌더링 하지 않아서 빠르다. (그러나 Milliseconds 단위로 빨라지기 때문에 무시할 만한 수준이다.)
 2. 하위 component는 렌더링 되지 않기 때문에 어떠한 의존성 없이 테스트가 가능하다. 예: ```하위 컴포넌트에서 componentWillRerecieve를 통한 상위 컴포넌트 state 변경``` 
    
 **단점**
-1. 예를들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보여지고 isShow 값이 제대로 나왔는지 판별한다고 가정했을 때 값이 true인 것은 판별 수 있으나 실제로 DOM이 보여지는 상태인지 확인 할 수 없다.
-2. Milliseconds 단위로 빨라지기 때문에 무시할 만한 수준이다.
-3. 하위 컴포넌트를 포함한 렌더링이 이뤄져야 실제로 유저가 볼 수 있는 모든 작동을 확인하고 검증이 가능하다. 
+1. 하위 컴포넌트를 포함한 렌더링이 이뤄져야 실제로 유저가 볼 수 있는 모든 작동을 확인하고 검증이 가능하다. 
 
-추가적으로 Shallow rendering의 경우 [RTL에서는 권장하지 않는 방법이다.](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
+추가적으로 Shallow rendering의 경우 [RTL에서는 권장하지 않는 방법입니다.](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
 
-
-5. **Mock**: 실제 구현된 함수 아래에서 가짜 함수를 만들어 함수의 매개 변수나 호출을 추적할 수 있으며, 또한 원하는 값을 반환하도록 할 수 있다.  
+### 5. **Mocking**
+구현된 함수 아래에 **가짜 함수**를 만들며 함수의 매개 변수나 호출을 추적하거나 원하는 값을 반환하도록 할 수 있습니다.  
+간단한 함수에 mock을 달아주는 예제부터 실사용 예제까지 알아보겠습니다.
 
 ```js
 // https://jestjs.io/docs/en/mock-functions.html
 // x => 42 + x 함수를 Mocking하는 것을 보여주는 예제
+
 // 인자 items의 개수만큼 반복하며 callback함수에 items[index] 인자를 넣어준다.
 function forEach(items, callback) {
   for (let index = 0; index < items.length; index++) {
@@ -263,7 +270,7 @@ function forEach(items, callback) {
   }
 }
 
-// 이제 실제 함수 x => 42 + x 를 Mocking가능하다.
+// x라는 인자가 들어올 때 42를 더하는 함수에 mock을 달아준다.
 const mockCallback = jest.fn(x => 42 + x);
 forEach([0, 1], mockCallback);
 
@@ -280,25 +287,9 @@ expect(mockCallback.mock.calls[1][0]).toBe(1);
 expect(mockCallback.mock.results[0].value).toBe(42);
 ```
 
-실제 함수를 가지고 원하는 반환값을 리턴하게 할 수 있다.
-
-```js
-// https://jestjs.io/docs/en/mock-functions.html
-// foo.js
-module.exports = function() {
-  // some implementation;
-};
-
-// test.js
-jest.mock('../foo'); // this happens automatically with automocking
-const foo = require('../foo');
-
-// foo is a mock function
-foo.mockImplementation(() => 42);
-foo();
-// > 42
-```
-
+**또 다른 mock의 사용처는 api 통신 모듈**이 있습니다.
+api를 호출하면 실제 서버에 접근에 데이터를 조작하므로 매번 테스트를 실행시 값이 달라질 수 있고 자칫하면 Production 레벨까지 영향을 끼칠수 있습니다. 
+원하는 값이 계속 반환되게 하려면 api 모듈에 mock을 달아 특정한 경우에 항상 원하는 결과값이 나오도록 할 수 있습니다.
 ```js
 // https://github.com/ctimmerm/axios-mock-adapter
 // 만약 어떤 함수 또는 컴포넌트가 있고 api 요청을 통해 값을 받는다면 그 요청을 mock이 대신할 수 있다.
@@ -319,27 +310,12 @@ axios.get('/users')
     console.log(response.data); // { users: [ { id: 1, name: 'John Smith' } ] }
 });
 ```
-
-```js
-// https://jestjs.io/docs/en/es6-class-mocks#spying-on-the-constructor
-import SoundPlayer from './sound-player';
-/** SoundPlayer 모듈이 반환하는 객체가
- * {
- *   f1: () => {...}
- *   f2: (n) => {...}
- *   f3: (n, n1) => void
- * }
- * 이 와 같은 구조라고 할 때 아래의 함수를 사용하면 한번에 모든 함수를 Mocking할 수 있다.
- * 
-jest.mock('./sound-player');
-
-```
-
-> 이메일과 문자를 보낼 때 사용하는 messageService라는 자바스크립트 모듈이 있다고 가정해보겠습니다.
-> 
-> 이렇게 외부 매체를 통해 메세지를 보내는 작업은 어플리케이션에서 수시로 일어날 수 있지만, 단위 테스트 측며에서는 모킹 기법 없이는 처리가 매우 끼다로운 대표적인 케이스 중 하나입니다.
-> 왜냐하면, 일반적으로 이메일과 문자는 외부 서비스를 이용하는 경우가 많아서 테스트 실행 시 마다 불필요한 과금 발생할 수 있고, 해당 외부 서비스에 장애가 발생하면 관련 테스트가 모두 깨지는
-> 불상사가 발생할 수 있기 때문입니다. [참고](https://www.daleseo.com/jest-mock-modules/)
+이제 실제 예제로 알아보겠습니다.
+이메일과 문자를 보낼 때 사용하는 messageService라는 자바스크립트 모듈이 있다고 가정해보겠습니다.
+이렇게 외부 매체를 통해 메세지를 보내는 작업은 어플리케이션에서 수시로 일어날 수 있지만, 단위 테스트 측며에서는 모킹 기법 없이는 처리가 매우 끼다로운 대표적인 케이스 중 하나입니다.
+왜냐하면, 일반적으로 이메일과 문자는 외부 서비스를 이용하는 경우가 많아서 테스트 실행 시 마다 불필요한 과금 발생할 수 있고, 해당 외부 서비스에 장애가 발생하면 관련 테스트가 모두 깨지는
+불상사가 발생할 수 있기 때문입니다. 
+[참고](https://www.daleseo.com/jest-mock-modules/)
 
 ```js
 // messageService.js
@@ -355,19 +331,19 @@ export function sendSMS(phone, message) {
 import { sendEmail, sendSMS } from './messageService';
 
 export function register(user) {
-  /* DB에 회원 추가 */
+  /* DB에 회원 추가하고 SMS와 Email로 회원가입 환영 메세지를 보낸다. */
   const message = '회원 가입을 환영합니다!';
   sendEmail(user.email, message);
   sendSMS(user.phone, message);
 }
 //////////////////////
-
-
+// 테스트 코드
 import { register } from './userService';
 import * as messageService from './messageService';
 
-// 이제 messageService 오브젝트안의 함수를 추적한다.
-messageService.sendEmail = jest.fn();
+// 여기서 우리는 messageService 모듈의 sendEmail 함수와 sendSMS 함수를 목(mock) 함수로 대체를 해야합니다. 왜냐하면 실제로 이메일이나 문자를 보낼 의도가 없고 
+// 단순히 userService가 제대로 호출을 하는지 여부만 알면 되기 때문입니다.
+messageService.sendEmail = jest.fn(); 
 messageService.sendSMS = jest.fn();
 
 const sendEmail = messageService.sendEmail;
@@ -397,53 +373,75 @@ describe("", () => {
    });
 });
 ```
-
+추가로 함수를 mocking하는 대표적인 4가지 함수를 알아보겠습니다.
+1. ```jest.fn()```
+함수를 mocking합니다. 또한 어떤 인자와 결과를 반환하는 가짜함수를 만들어 완전히 대채시킬수도 있습니다.
+    ```js
+         const stub = jest.fn(x => { return 1 });
+        stub();
+         expect(stub).toBeCalled();
+     ```
+2. ```jest.spyOn()```
+오브젝트 안의 함수를 mocking합니다. 
 ```js
-describe("Test! mocks", () => {
-   const myObj = {
-     doSomething() {
-       console.log('does something');
-     }
-   };
-
-   it('stub .toBeCalled()', () => {
-     // jest.fn은 함수를 Mocking 하는 반면
-     const stub = jest.fn(x => { return 1 });
-     stub();
-     expect(stub).toBeCalled();
-   });
-   it('spyOn .toBeCalled()', () => {
-     // jest.spyOn을 통해 해당 방식으로 오브젝트안의 함수를 Mocking할 수 있다.
+    const myObj = {
+        doSomething() {
+        console.log('does something');
+         }
+    };
+   
+   //myObj의 doSomething 함수를 mocking 합니다.
      const somethingSpy = jest.spyOn(myObj, 'doSomething');
      myObj.doSomething();
      expect(somethingSpy).toBeCalled();
-
-     // 하지만 jest.spyOn을 안쓰고 아래의 방식으로도 할 수 있다. 
-     // messageService.sendEmail = jest.fn();
-     // messageService.sendSMS = jest.fn();
-   });
-});
+     
+      // 하지만 jest.spyOn을 안쓰고 아래의 방식으로도 할 수 있다. 
+     // myObj.doSomething = jest.fn();
+```
+3. ```jest.mock()```
+모듈 안의 모든 함수를 mocking 합니다.
+```js
+// https://jestjs.io/docs/en/es6-class-mocks#spying-on-the-constructor
+import SoundPlayer from './sound-player';
+/** SoundPlayer 모듈이 반환하는 객체가
+ * {
+ *   f1: () => {...}
+ *   f2: (n) => {...}
+ *   f3: (n, n1) => void
+ * }
+ * 이 와 같은 구조라고 할 때 아래의 함수를 사용하면 한번에 모든 함수를 Mocking할 수 있다.
+ * 
+ // **주의!** module을 mocking할 때 꼭 해당 모듈을 import를 해야합니다.
+jest.mock('./sound-player');
+```
+4. ```jest.mockImplementation()```
+이미 mock 한 함수를 대채하는 가짜함수를 만들수 있습니다.
+```js
+import SoundPlayer from './sound-player';
+jest.mock('./sound-player');
+// f1함수에 인자가 없고 123을 반환하는 가짜 함수를 만든다.
+SoundPlayer.f1.mockImplementation(() => 123);
+// 비동기 함수와 123을 반환하는 가짜 함수를 만든다.
+SoundPlayer.f1.mockImplementation(() => Promise.resolve(123));
 ```
 
 **장점**
-1. 함수에 사용한다면 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있다.
-2. **어떤 일들이 발생했는지를 기억할 수 있기 때문에 내부적으로 어떻게 사용되는지 검증할 수 있다.** [참고](https://www.daleseo.com/jest-fn-spy-on/)
+1. 고립성을 유지한다. 
+함수에 사용한다면 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있다.
+
+2. 어떤 일들이 발생했는지를 기억할 수 있기 때문에 내부적으로 어떻게 사용되는지 검증할 수 있다. [참고](https://www.daleseo.com/jest-fn-spy-on/)
+
 3. 실제 DB, API 호출을 하지 않으므로 비용을 절약할 수 있다.
 
 **단점**
-
-(?)
+1. 러닝커브(?)
 
 
 ### 인기있는 테스트 프레임워크/라이브러리
-
 #### 1. Mocha
-
 ⭐19.1k(20-03-05 기준)
 
-과거 수년간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있다.
-
-설계 특성상 각각의 테스트 케이스는 동기적(Synchronouse)으로 작동하고 독립적인 환경을 구성하지 않고 있으며 이에 따라 원치않는 사이드이펙트 문제가 발생할 수도 있다.
+과거 수년간 가장 인기 많았던 테스트 프레임워크 모카는 사용자가 원하는 Assertion, Snapshot, Mocking, Spy library를 선택할 수 있다는 유연함이 있다는 반면 초심자에게는 까다로울 수 있는 환경 설정, 다양한 라이브러리의 사용으로 인해 유저 마다 다른 라이브러리 선택으로 인한 파편화의 단점이 있다. 각각의 테스트 케이스는 동기적으로 작동한다.
 ```js
 // https://heropy.blog/2018/03/16/mocha/
 const should = require('chai').should();
@@ -461,16 +459,13 @@ describe('Testing 1', function () {
 2. 수년간 가장 인기 많은 테스트 프레임워크 
 
 **단점**
-1. 각 테스트 케이스 마다 독립적인 환경이 아니어서 원치않는 사이드이펙트 문제가 발생할 수 있음
-
+(?)
 #### 2. Jest
-
 ⭐ 29.9k
 
 기본적으로 Out of box이며 Mocha와 다르게 각 테스트 케이스는 병렬적으로 작동하므로 어느정도 속도의 향상을 가져올 수 있다.
 
-또한 각 테스트 케이스를 독립적으로 돌리기 위해서 Virtual machine을 사용한다. 독립적이라는 장점을 가져올 수 있는 반면 테스트 매 사용시마다 모듈을 새로 Import 다시 하므로 테스트 속도가 느려질 수 있는 것으로 보이지만 Jest에서 추가적으로 제공하는 기능(setupTests.js에서 모듈을 불러오면 Global로 사용함)을 통해 해결할 수 있는 것으로 보인다.
-
+그러나 각 테스트 케이스를 고립적인 상황을 만들기 위해 Virtual machine을 사용하므로 처음으로 각각의 테스트 케이스 호출시 새로 module을 import해 Mocha보다 느린 경우가 있을 수 있다.(다음 실행시에는 cache된 데이터 사용)
 ```js
 describe('Testing 1', () => {
   it('Test case title: HelloWorld', () => {
@@ -480,18 +475,16 @@ describe('Testing 1', () => {
 ```
 
 **장점**
-1. 각 테스트 케이스는 독립적 (VM 사용)
+1. 각 테스트 케이스는 고립적 (VM 사용)
 2. 각 테스트 케이스는 병렬적으로 작동해 어느정도 속도 향상이 있을 수 있음
 3. 현재 가장 인기 많은 테스트 프레임워크
 4. 기본적으로 Out of Box이므로 따로 환경설정이 필요하지 않음
 5. Facebook에서 유지보수
 
 **단점**
-1. 각 테스트 케이스가 독립적이므로 매번 모듈을 새로 가져와서 속도가 느릴수 있음
-  
+1. 각 테스트 케이스가 고립적이므로 매번 모듈을 새로 가져와서 속도가 느릴수 있음
 
 #### 3. Enzyme
-
 ⭐ 18.5k
 
 가상의 환경 JDOM에서 컴포넌트를 렌더링할 수 있는 기능을 제공하며 DOM과 상호작용이 정상적인지, props, state, instance의 함수들은 원하는 값이 나오는지 테스트 가능하다.
@@ -517,16 +510,13 @@ describe('<Foo />', () => {
    
 **단점**
 1. 기능이 많은 만큼 RTL에 비해 러닝커브가 있음
-  
 
 #### 4. RTL
-
 ⭐ 10.9k
 
-Ezyme의 하위 호환, Shallow rendering, props, state 등 값 체크 기능을 지원하지 않음.
-유저 관점의 보여지는 결과에 초점을 맞춤.
-
-일반적으로 Enzyme보다 쉽다고 여겨짐.
+Ezyme의 하위 호환, Shallow rendering가 지원되지 않으며, props, state, instance 값을 가져올 수 없음.
+유저 관점의 보여지는 결과에 초점을 맞췄으며 일반적으로 Enzyme보다 쉽다고 여겨짐.
+예를들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보여진다고 가정했을 때 isShow 값이 제대로 나왔는지 판별한다고 가정했을 때 값이 true인 것은 판별 수 있으나 실제로 DOM이 보여지는 상태인지 확인 할 수 없다.
 
 > RTL 에서는 Enzyme 과 달리 모든 테스트를 DOM 위주로 진행합니다. 그리고, 컴포넌트의 props 나 state 를 조회하는 일은 없습니다. 컴포넌트를 리팩토링하게 될 때에는, 주로 내부 구조 및 네이밍은
 > 많이 바뀔 수 있어도 실제 작동 방식은 크게 바뀌지 않습니다. 
