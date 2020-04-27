@@ -299,7 +299,7 @@ expect(mockCallback.mock.calls[1][0]).toBe(1);
 expect(mockCallback.mock.results[0].value).toBe(42);
 ```
 
-**또 다른 mock의 사용처는 API 통신 모듈**이 있습니다.(DB도 mocking이 가능합니다.:hearts:)
+**또 다른 mock의 사용처는 API 통신 모듈**이 있습니다.(DB도 mocking이 가능합니다:heart_eyes:)
 
 API를 호출하면 실제 서버에 접근에 데이터를 조작하므로 매번 테스트를 실행시 값이 달라질 수 있고 자칫하면 Production 레벨까지 영향을 끼칠수 있습니다. 
 
