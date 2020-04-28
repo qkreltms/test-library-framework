@@ -69,7 +69,7 @@ Lines        : Unknown% ( 0/0 )
 
 한 가지 강력한 대비책은 테스트 자동화를 통해 개발에 집중할 수 있는 환경을 만드는 것입니다.
 
-다음의 목차에 따라 진행하며 결론 부분에서는 최종적으로 어떤 툴을 사용하는게 좋을지 도출하겠습니다.
+다음의 목차에 따라 진행하며 결론 부분에서는 최종적으로 어떤 툴을 사용하는 게 좋을지 도출하겠습니다.
 ## 목차
 1. 용어설명
 2. 인기있는 테스트 프레임워크/라이브러리
@@ -82,9 +82,9 @@ Lines        : Unknown% ( 0/0 )
 ### 1. **Out of box**
 :cherry_blossom: 별도의 설정, 설치 없이 바로 설정 가능합니다.
   
-테스트 프레임워크 Mocha는 별도의 Mocking, Spy library를 골라 설치해 사용해 사용자가 자유롭게 선택할 수 있다는 장점이 있는 반면 번거로운 환경 설정과 개발 환경 파편화는 사용자를 골치 아프게 합니다. 
+테스트 프레임워크 Mocha는 별도의 Mocking, Spy library를 골라 설치해 사용해 사용자가 자유롭게 선택할 수 있다는 장점이 있지만 번거로운 환경 설정과 개발 환경 파편화는 사용자를 골치 아프게 합니다. 
 
-반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어 있습니다.(Out of box).
+반면 Jest의 경우 따로 설치할 필요 없이 모든 라이브러리가 내장되어 있습니다. (Out of box).
 
 
 더 나아가 Jest와 RTL의 경우 CRA에 내장되어있어 별도의 설치, 환경 설정 없이 바로 진행할 수 있습니다.
@@ -104,13 +104,13 @@ it("matches snapshot", () => {
 만약 Counter 컴포넌트가 변경되었고 Snapshot을 업데이트하고 싶다면 특정 명령어를 입력해 업데이트 가능합니다.
 Jest의 경우에는 다음의 명령어로 가능합니다: ```jest --updateSnapshot```
 
-추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 합니다.
+추가로 RTL의 창시자인 [Kent C. Dodds](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering) 에 따르면 매번 컴포넌트를 하다 보면 Snapshot이 달라지기 때문에 사람들이 snapshot 업데이트를 걱정 없이 하므로 Snapshot 테스트를 거의 사용하지 않는다고 합니다.
 
 ### 3. **Full Rendering**
-가상의  DOM에서 컴포넌트를 렌더링 할 때 하위 컴포넌트 모두를 렌더링합니다.
+가상의  DOM에서 컴포넌트를 렌더링할 때 하위 컴포넌트 모두를 렌더링합니다.
    
 ### 4. **Shallow Rendering**
-가상의  DOM에서 대상 컴포넌트만 렌더링 하며 하위 컴포넌트는 렌더링 하지 않습니다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
+가상의  DOM에서 대상 컴포넌트만 렌더링하며 하위 컴포넌트는 렌더링하지 않습니다. [참고](https://velog.io/@velopert/react-testing-with-enzyme)
 
 만약 아래의 컴포넌트가 있을 때
 ```js
@@ -259,11 +259,11 @@ describe('<Counter />', () => {
 ```
 
 **장점**
-1. 모든 DOM을 렌더링 하지 않아서 빠릅니다. (그러나 Milliseconds 단위로 빨라지기 때문에 무시할 만한 수준이다.)
-2. 하위 component는 렌더링 되지 않기 때문에 어떠한 의존성 없이 테스트가 가능합니다. 예: 하위 컴포넌트에서 ```componentWillRerecieve()```를 통한 상위 컴포넌트 변경 
+1. 모든 DOM을 렌더링하지 않아서 빠릅니다. (그러나 Milliseconds 단위로 빨라지기 때문에 무시할 만한 수준이다.)
+2. 하위 component는 렌더링 되지 않기 때문에 어떠한 의존성 없이 테스트할 수 있습니다. 예: 하위 컴포넌트에서 ```componentWillRerecieve()```를 통한 상위 컴포넌트 변경 
    
 **단점**
-1. 하위 컴포넌트를 포함한 렌더링이 이뤄져야 실제로 유저가 볼 수 있는 모든 작동을 확인하고 검증이 가능하지만 shallow 렌더링으로는 할 수 없습니다. 
+1. 하위 컴포넌트를 포함한 렌더링이 이뤄져야 실제로 유저가 볼 수 있는 모든 작동을 확인하고 검증할 수 있지만 shallow 렌더링으로는 할 수 없습니다. 
 
 추가적으로 Shallow rendering의 경우 [RTL에서는 권장하지 않는 방법입니다.](https://kentcdodds.com/blog/why-i-never-use-shallow-rendering)
 
@@ -301,7 +301,7 @@ expect(mockCallback.mock.results[0].value).toBe(42);
 
 **또 다른 mock의 사용처는 API 통신 모듈**이 있습니다.(DB도 mocking이 가능합니다:heart_eyes:)
 
-API를 호출하면 실제 서버에 접근에 데이터를 조작하므로 매번 테스트를 실행시 값이 달라질 수 있고 자칫하면 Production 레벨까지 영향을 끼칠수 있습니다. 
+API를 호출하면 실제 서버에 접근에 데이터를 조작하므로 매번 테스트를 실행 시 값이 달라질 수 있고 자칫하면 Production 레벨까지 영향을 끼칠 수 있습니다. 
 
 원하는 값이 계속 반환되게 하려면 API 모듈에 mock을 달아 특정한 경우에 항상 원하는 결과값이 나오도록 할 수 있습니다.
 ```js
@@ -393,7 +393,7 @@ describe("", () => {
 ```
 추가로 함수를 mocking하는 대표적인 4가지 함수를 알아보겠습니다.
 1. ```jest.fn()```
-함수를 mocking합니다. 또한 어떤 인자와 결과를 반환하는 가짜함수를 만들어 완전히 대채시킬수도 있습니다.
+함수를 mocking 합니다. 또한, 어떤 인자와 결과를 반환하는 가짜함수를 만들어 완전히 대채시킬 수도 있습니다.
     ```js
          const stub = jest.fn(x => { return 1 });
         stub();
@@ -402,7 +402,7 @@ describe("", () => {
      
      
 2. ```jest.spyOn()```
-오브젝트 안의 함수를 mocking합니다. 
+오브젝트 안의 함수를 mocking 합니다. 
 ```js
     const myObj = {
         doSomething() {
@@ -453,7 +453,7 @@ SoundPlayer.f1.mockImplementation(() => Promise.resolve(123));
 1. 고립성을 유지합니다. 
 함수에 사용한다면 항상 원하는 값을 반환하도록 할 수 있으며 API call에 사용된다면 함수와 동일하게 특정한 URL에 대해서 항상 동일한 결과물을 반환하도록 할 수 있습니다.
 
-2. 어떤 일들이 발생했는지를 기억할 수 있기 때문에 내부적으로 어떻게 사용되는지 검증할 수 있습니다. [참고](https://www.daleseo.com/jest-fn-spy-on/)
+2. 어떤 일들이 발생했는지를 기억할 수 있으므로 내부적으로 어떻게 사용되는지 검증할 수 있습니다. [참고](https://www.daleseo.com/jest-fn-spy-on/)
 
 3. 실제 DB, API 호출을 하지 않으므로 비용을 절약할 수 있습니다.
 
@@ -491,10 +491,10 @@ describe('Testing 1', function () {
 #### 2. Jest
 ⭐ 29.9k
 
-기본적으로 Out of box이며 Mocha와 다르게 각 테스트 케이스는 병렬적으로 작동하므로 어느정도 속도의 향상을 가져올 수 있습니다.
+기본적으로 Out of box이며 Mocha와 다르게 각 테스트 케이스는 병렬적으로 작동하므로 어느 정도 속도의 향상을 가져올 수 있습니다.
 
 
-그러나 각 테스트 케이스를 고립적인 상황을 만들기 위해 Virtual machine을 사용하므로 처음으로 각각의 테스트 케이스 호출시 새로 module을 import해 Mocha보다 느린 경우가 있을 수 있습니다.(but 다음 실행시에는 cache된 데이터 사용)
+그러나 각 테스트 케이스를 고립적인 상황을 만들기 위해 Virtual machine을 사용하므로 처음으로 각각의 테스트 케이스 호출 시 새로 module을 import 하여 Mocha보다 느린 경우가 있습니다.(but 다음 실행시에는 cache된 데이터 사용)
 ```js
 describe('Testing 1', () => {
   it('Test case title: HelloWorld', () => {
@@ -511,12 +511,12 @@ describe('Testing 1', () => {
 5. Facebook에서 유지보수
 
 **단점**
-1. 각 테스트 케이스가 고립적이므로 매번 모듈을 새로 가져와서 속도가 느릴수 있습니다.
+1. 각 테스트 케이스가 고립적이므로 매번 모듈을 새로 가져와서 속도가 느릴 수 있습니다.
 
 #### 3. Enzyme
 ⭐ 18.5k
 
-가상의 환경 JDOM에서 컴포넌트를 렌더링할 수 있는 기능을 제공하며 DOM과 상호작용이 정상적인지, props, state, instance의 함수들은 원하는 값이 나오는지 테스트 가능합니다.
+가상의 환경 JDOM 에서 컴포넌트를 렌더링할 수 있는 기능을 제공하며 DOM과 상호작용이 정상적인지, props, state, instance의 함수들은 원하는 값이 나오는지 테스트 가능합니다.
 
 ```js
 // https://velog.io/@velopert/react-testing-with-enzyme
@@ -558,7 +558,7 @@ Ezyme의 하위 호환(상호작용, 가상환경에서 렌더링), Shallow rend
 
 유저 관점의 보여지는 결과에 초점을 맞췄습니다.
 
-예를들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보여지는 컴포넌트가 있을 때 업데이트 계속하다가 여러 사이드 이펙트로 ```props.isShow```값이 true여도 안보여지는 경우가 발생할 수 있습니다. (state의 값보다는 실제로 DOM이 보여지는지 결과로 판별합니다.)
+예를 들어 ```props.isShow```가 true가 될 때 특정한 DOM이 보이는 컴포넌트가 있을 때 업데이트 계속하다가 여러 사이드 이펙트로 ```props.isShow```값이 true여도 안보이는 경우가 발생할 수 있습니다. (state의 값보다는 실제로 DOM이 보는지 결과로 판별합니다.)
 
 일반적으로 Enzyme보다 쉽다고 여겨집니다.
 
@@ -703,6 +703,6 @@ cypress
 저는 **Cypress** 입니다. 환경 설정이 까다롭다는 단점이 있지만 메소드 체이닝 패턴으로 이어가는 형식으로 코드가 간결했고 비동기 코드도 동기적으로 실행되어 순차적으로 코드를 읽으며 이해하기 어렵지 않았습니다.
 
 
-사용하면서 맞딱뜨린 문제의 대부분은 잘 정리된 문서에서 해결책을 찾을 수 있었고, 그래도 부족한 부분은 1일 이내에 github에서 답변을 얻을 수 있었습니다.
+사용하면서 맞닥뜨린 문제 대부분은 잘 정리된 문서에서 해결책을 찾을 수 있었고, 그래도 부족한 부분은 1일 이내에 ithub 에서 답변을 얻을 수 있었습니다.
 
 ## NEXT: BDD란 무엇인가?
