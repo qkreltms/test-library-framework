@@ -6,7 +6,10 @@
  *
  * cy.mount(<TodoItem todo={todoItemData} />);
  **/
-// 주의사항: 내부적으로 Mocha를 사용하므로 unit test code 작성시 arrow function 사용 X
+
+// 주의사항: arrow function 사용 X
+// https://mochajs.org/#arrow-functions
+// https://remarkablemark.org/blog/2016/08/20/arrow-functions-in-mocha/
 describe("<TodoItem/>", function() {
   beforeEach("visit the app", () => {
     cy.visit("http://localhost:3000");
