@@ -6,11 +6,11 @@ export interface TodoFormProps {
 
 const TodoForm: React.FC<TodoFormProps> = ({ onInsert }) => {
   const [value, setValue] = useState("");
-  const onChange = useCallback(e => {
+  const onChange = useCallback((e) => {
     setValue(e.target.value);
   }, []);
   const onSubmit = useCallback(
-    e => {
+    (e) => {
       if (onInsert) onInsert(value);
       setValue("");
       e.preventDefault(); // 새로고침을 방지함

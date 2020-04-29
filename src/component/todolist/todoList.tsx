@@ -10,7 +10,7 @@ export interface TodoListProps {
 const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onRemove }) => {
   return (
     <ul data-testid="TodoList">
-      {todos.map(todo => {
+      {todos.map((todo) => {
         return <TodoItem todo={todo} key={todo.id} onToggle={onToggle} onRemove={onRemove} />;
       })}
     </ul>

@@ -10,7 +10,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ id }) => {
   const [loading, setLoading] = useState(false);
   
   const getUser = async (id: number) => {
-    setLoading(true);
+    setLoading(true); 
     try {
       const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
       setUserData(response.data);

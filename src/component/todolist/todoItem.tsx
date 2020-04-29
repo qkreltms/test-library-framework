@@ -14,7 +14,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onRemove }) => {
       <span
         data-testid="todoItem-span"
         style={{
-          textDecoration: done ? "line-through" : "none"
+          textDecoration: done ? "line-through" : "none",
         }}
         onClick={() => onToggle && onToggle(id)}
       >

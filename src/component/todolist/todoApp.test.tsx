@@ -22,8 +22,8 @@ describe("<TodoApp />", () => {
     // 1. 입력
     fireEvent.change(component.getByPlaceholderText("할 일을 입력하세용~"), {
       target: {
-        value: todoText
-      }
+        value: todoText,
+      },
     });
 
     // 2. 버튼 클릭으로 todo 추가
