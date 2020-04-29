@@ -683,7 +683,7 @@ cypress
 
 2. 어느정도 트렌드를 따라가야 한다.
 
-시대에 뒤쳐지지 않으면서 Stackoverflow, github에 질문 올리면 잘 답변해주는 툴을 사용하고 싶어요ㅠ:cry:
+트렌드에 뒤쳐지지 않으면서 Stackoverflow, github에 질문 올리면 잘 답변해주는 툴을 사용하고 싶어요ㅠ:cry:
 
 ### 조합 1. Cypress
 #### 실사용 예제
