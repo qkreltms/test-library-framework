@@ -170,45 +170,6 @@ describe('<Counter />', () => {
     // 현재의 스냅샷이 이전 스냅샷과 같은지 확인한다.
     expect(wrapper).toMatchSnapshot();
   });
-  
-  // jest에서 test는 it과 동일한 역할을 수행한다.
-  test('has initial props', () => {
-    const wrapper = shallow(<Counter />);
-    컴포넌트의 number prop이 0과 같은지 확인한다.
-    expect(wrapper.props().number).toBe(0);
-  });
-  
-  it('has initial number', () => {
-    const wrapper = shallow(<Counter />);
-    컴포넌트의 number state가 0과 같은지 확인한다.
-    expect(wrapper.state().number).toBe(0);
-  });
-  
-  it('increases', () => {
-    const wrapper = shallow(<Counter />);
-    // 컴포넌트의 ```handleIncrease()``` 함수를 호출했을 때 number state가 1이 되는지 확인한다.
-    wrapper.instance().handleIncrease();
-    expect(wrapper.state().number).toBe(1);
-  });
-  
-  it('decreases', () => {
-    const wrapper = shallow(<Counter />);
-    // 컴포넌트의 ```handleDecrease()``` 함수를 호출했을 때 number state가 -1이 되는지 확인한다.
-    wrapper.instance().handleDecrease();
-    expect(wrapper.state().number).toBe(-1);
-  });
-  
-  it('calls handleIncrease', () => {
-    const wrapper = shallow(<Counter />);
-    // 컴포넌트에서 button이고 이 안의 텍스트가 +1인 DOM을 찾는다.
-    const plusButton = wrapper.findWhere(
-      node => node.type() === 'button' && node.text() === '+1'
-     );
-    // 위에서 찾은 버튼을 클릭한다.
-    plusButton.simulate('click');
-    // number state가 1이 됐는지 확인한다.
-    expect(wrapper.state().number).toBe(1);
-   });
 });
 ```
 
