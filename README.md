@@ -60,7 +60,8 @@ Lines        : Unknown% ( 0/0 )
 저자: [qkreltms](https://github.com/qkreltms)
 
 이 문서의 주소는: https://github.com/qkreltms/testingLibrary-playground
-  
+@deprecated: https://medium.com/p/9ae863c6e1b/edit로 옮겼습니다.
+
 
 ## 개요:sunny:
 점점 커지는 프로젝트를 진행하면서 유닛 테스트의 중요성이 주목받고 있습니다. 
